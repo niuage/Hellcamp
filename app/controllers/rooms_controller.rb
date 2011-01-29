@@ -3,20 +3,21 @@ class RoomsController < ApplicationController
   # GET /rooms.xml
   before_filter :connect
   before_filter :find_room
+  before_filter :find_all_rooms
 
   def find_all_rooms
-    @campfire.rooms
+    @rooms = @campfire.rooms
   end
 
   def find_room
-    @room = @campfire.find_room_by_id(params[:id])
+    @room = @campfire.find_room_by_id(params[:id].to_i)
   end
 
   def connect
     @campfire = Tinder::Campfire.new 'challengepost', :token => 'b4d5d35d5b76618ffdb9e0cec9af2d211c61842a'
   end
 
-  def send_message
+  def message
     respond_to do |format|
       @room.speak(params[:message])
       format.html { redirect_to root_path }

@@ -20,7 +20,7 @@
   })
 </script>
 
-kikoo HellCamp
+kikoo HellCamp room <%= @room.name %>
 
 <div id="Spoiler">
 
@@ -29,8 +29,7 @@ kikoo HellCamp
 
 </div>
 
-<%= form_tag message_room_path(@room) do %>
-  <%= text_field_tag :room %>
+<%= form_tag message_room_path(@room.id) do %>
   <%= text_area_tag :message %>
   <%= submit_tag %>
 <% end %>
