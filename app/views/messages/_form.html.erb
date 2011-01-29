@@ -1,0 +1,4 @@
+<%= form_tag new_room_message_path(room.id), :class => "send_message" do %>
+  <%= text_area_tag :message %>
+  <%= submit_tag %>
+<% end %>

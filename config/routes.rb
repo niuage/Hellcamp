@@ -1,8 +1,6 @@
 Campfire::Application.routes.draw do
   resources :rooms do
-    member do
-      post :message
-    end
+    resources :messages
   end
 
   root :to => "home#index"

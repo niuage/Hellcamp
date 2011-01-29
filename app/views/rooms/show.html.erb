@@ -1,35 +1,23 @@
 <script type="text/javascript" charset="utf-8">
   $(function() {
-    <% @rooms.each_with_index do |room, i| %>
-    var jug<%= i %> = new Juggernaut;
-    jug<%= i %>.subscribe("<%= room.id %>", function(data){
-      $("#<%= room.name %>").append(data.body + " by " + data.user.name);
-    });
-    <% end %>
-  })
-
-  $("form").live("submit", function(e) {
-    $.ajax({
-      url: $(this).attr("action"),
-      data: $(this).serialize(),
-      type: "POST",
-      dataType: "script"
-    })
-    e.preventDefault();
-    return false;
+    var jug = new Juggernaut;
+<% @rooms.each_with_index do |room, i| %>
+      jug.subscribe("<%= room.id %>", function(data){
+        $("#<%= room.name %>").append(data.body + " by " + data.user.name);
+      });
+<% end %>
   })
 </script>
 
-kikoo HellCamp room <%= @room.name %>
 
-<div id="Spoiler">
+<% @current_rooms.each do |room| %>
+  <div class="room" id="<%= room.name.downcase %>">
+    <%= room.name %>
 
-</div>
-<div id="Testing">
+    <div class="chat">
 
-</div>
+    </div>
 
-<%= form_tag message_room_path(@room.id) do %>
-  <%= text_area_tag :message %>
-  <%= submit_tag %>
+    <%= render "messages/form" %>
+  </div>
 <% end %>

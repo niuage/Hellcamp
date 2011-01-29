@@ -1,29 +1,8 @@
 class RoomsController < ApplicationController
   # GET /rooms
   # GET /rooms.xml
-  before_filter :connect
   before_filter :find_room
   before_filter :find_all_rooms
-
-  def find_all_rooms
-    @rooms = @campfire.rooms
-  end
-
-  def find_room
-    @room = @campfire.find_room_by_id(params[:id].to_i)
-  end
-
-  def connect
-    @campfire = Tinder::Campfire.new 'challengepost', :token => 'b4d5d35d5b76618ffdb9e0cec9af2d211c61842a'
-  end
-
-  def message
-    respond_to do |format|
-      @room.speak(params[:message])
-      format.html { redirect_to root_path }
-      format.js {}
-    end
-  end
 
   def index
     @rooms = Room.all
@@ -34,16 +13,12 @@ class RoomsController < ApplicationController
     end
   end
 
-  # GET /rooms/1
-  # GET /rooms/1.xml
   def show
     respond_to do |format|
       format.html # show.html.erb
     end
   end
 
-  # GET /rooms/new
-  # GET /rooms/new.xml
   def new
     @room = Room.new
 
@@ -53,13 +28,9 @@ class RoomsController < ApplicationController
     end
   end
 
-  # GET /rooms/1/edit
   def edit
-    @room = Room.find(params[:id])
   end
 
-  # POST /rooms
-  # POST /rooms.xml
   def create
     @room = Room.new(params[:room])
 
@@ -74,11 +45,7 @@ class RoomsController < ApplicationController
     end
   end
 
-  # PUT /rooms/1
-  # PUT /rooms/1.xml
   def update
-    @room = Room.find(params[:id])
-
     respond_to do |format|
       if @room.update_attributes(params[:room])
         format.html { redirect_to(@room, :notice => 'Room was successfully updated.') }
@@ -90,10 +57,7 @@ class RoomsController < ApplicationController
     end
   end
 
-  # DELETE /rooms/1
-  # DELETE /rooms/1.xml
   def destroy
-    @room = Room.find(params[:id])
     @room.destroy
 
     respond_to do |format|
@@ -101,4 +65,15 @@ class RoomsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  private
+
+  def find_all_rooms
+    @rooms = @campfire.rooms
+  end
+
+  def find_room
+    @room = @campfire.find_room_by_id(params[:id].to_i)
+  end
+  
 end
