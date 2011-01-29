@@ -1,3 +1,15 @@
 Campfire::Application.routes.draw do
-  root :to => "home#show"
+  resources :rooms do
+    member do
+      post :message
+    end
+  end
+
+  root :to => "home#index"
+
+  resources :home do
+    collection do
+      get :server
+    end
+  end
 end

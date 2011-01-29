@@ -1,0 +1,36 @@
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    <% @rooms.each_with_index do |room, i| %>
+    var jug<%= i %> = new Juggernaut;
+    jug<%= i %>.subscribe("<%= room.id %>", function(data){
+      $("#<%= room.name %>").append(data.body + " by " + data.user.name);
+    });
+    <% end %>
+  })
+
+  $("form").live("submit", function(e) {
+    $.ajax({
+      url: $(this).attr("action"),
+      data: $(this).serialize(),
+      type: "POST",
+      dataType: "script"
+    })
+    e.preventDefault();
+    return false;
+  })
+</script>
+
+kikoo HellCamp
+
+<div id="Spoiler">
+
+</div>
+<div id="Testing">
+
+</div>
+
+<%= form_tag message_room_path(@room) do %>
+  <%= text_field_tag :room %>
+  <%= text_area_tag :message %>
+  <%= submit_tag %>
+<% end %>

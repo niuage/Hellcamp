@@ -1,0 +1,15 @@
+development: &DEFAULT
+  host: localhost
+  port: 6379
+
+test:
+  <<: *DEFAULT
+
+profile:
+  <<: *DEFAULT
+
+staging:
+  <<: *DEFAULT
+
+production:
+  <<: *DEFAULT
