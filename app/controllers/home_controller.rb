@@ -4,7 +4,9 @@ class HomeController < ApplicationController
   before_filter :find_all_rooms
 
   def server
-    Resque.enqueue(Server, @room.id)
+    @rooms.each do |room|
+      Resque.enqueue(Server, room.id)
+    end
   end
 
   def index
@@ -14,6 +16,7 @@ class HomeController < ApplicationController
 
   def find_all_rooms
     @rooms = @campfire.rooms
+    @current_rooms = []
   end
 
   def find_room

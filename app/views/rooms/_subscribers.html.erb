@@ -1,0 +1,27 @@
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $.fn.incr = function(value) {
+      return this.text(parseInt(this.text() || 0) + value);
+    };
+
+    var update_page = function(data, room_name) {
+      if (!data || !data.body || !data.user) return;
+      var room = $("#" + room_name);
+      if (room.length == 1) {
+        var tr = room.find(".template").clone().removeClass("template");
+        tr.find(".user").html(data.user.name);
+        tr.find(".message").html(data.body)
+        tr.appendTo(room.find(".inner tbody"));
+      } else {
+        $("#tab_" + room_name + " .notification").incr(1).removeClass("hidden");
+      }
+    }
+
+    var jug = new Juggernaut;
+<% @rooms.each do |room| %>
+      jug.subscribe("<%= room.id %>", function(data){
+        update_page(data, "<%= room.name.downcase.gsub(" ", "_") %>")
+      });
+<% end %>
+  })
+</script>

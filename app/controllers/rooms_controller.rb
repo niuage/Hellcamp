@@ -59,11 +59,7 @@ class RoomsController < ApplicationController
 
   def destroy
     @room.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(rooms_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to root_url
   end
 
   private
@@ -73,7 +69,8 @@ class RoomsController < ApplicationController
   end
 
   def find_room
-    @room = @campfire.find_room_by_id(params[:id].to_i)
+    ids = params[:id].split("-") if params[:id]
+    @current_rooms = ids.map{|id| @campfire.find_room_by_id(id)}.compact if ids
   end
   
 end
