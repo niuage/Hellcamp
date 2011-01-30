@@ -15,7 +15,11 @@ class RoomsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
+      format.js {
+        @room_count = params[:room_count];
+        @room = @current_rooms.first
+      }
     end
   end
 
@@ -65,7 +69,7 @@ class RoomsController < ApplicationController
   private
 
   def find_all_rooms
-    @rooms = @campfire.rooms
+    @rooms = @campfire.rooms unless request.xhr?
   end
 
   def find_room

@@ -17,14 +17,32 @@ $(function() {
     });
     e.preventDefault();
   })
-  
+
+
+
   $(window).resize(function() {
     var chat = $(".chat-wrapper"),
     new_h = $(this).height() - chat.offset().top - $(".speak").outerHeight() - 24;
-    
     chat.height(new_h);
-  })
+  }).resize();
 
-  $(window).resize();
+  $(".chat").scrollTo();
+
+
+
+  $(".room-tab a").click(function(e) {
+    var state = {
+      controller: "rooms",
+      params: url.room.opened()
+    };
+    
+    window.history.pushState(
+      state,
+      "rooms",
+      state.controller + "/" + url.room.link_to($(this).attr("data-id"))
+      );
+
+    e.preventDefault();
+  })
 
 })

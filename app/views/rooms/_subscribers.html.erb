@@ -1,19 +1,13 @@
 <script type="text/javascript" charset="utf-8">
   $(function() {
-    $.fn.incr = function(value) {
-      return this.text(parseInt(this.text() || 0) + value);
-    };
 
     var update_page = function(data, room_name) {
       if (!data || !data.body || !data.user) return;
       var room = $("#" + room_name);
       if (room.length == 1) {
-        var tr = room.find(".template").clone().removeClass("template");
-        tr.find(".user").html(data.user.name);
-        tr.find(".message").html(data.body)
-        tr.appendTo(room.find(".inner tbody"));
+        room.post_message(data)
       } else {
-        $("#tab_" + room_name + " .notification").incr(1).removeClass("hidden");
+        $("#tab_" + room_name).add_notification();
       }
     }
 

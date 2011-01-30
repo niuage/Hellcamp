@@ -1,4 +1,4 @@
-<td id="<%= room.name.downcase %>" class="room room_<%= room_count %>">
+<td id="<%= room.name.downcase.gsub(" ", "_") %>" class="room room_<%= room_count %>" data-id="<%= room.id %>" >
   <div class="header">
     <h2><%= room.name %></h2>
     <ul>
