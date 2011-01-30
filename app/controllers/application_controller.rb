@@ -4,6 +4,6 @@ class ApplicationController < ActionController::Base
   before_filter :connect
 
   def connect
-    @campfire = Tinder::Campfire.new 'challengepost', :token => 'b4d5d35d5b76618ffdb9e0cec9af2d211c61842a'
+    @campfire = Tinder::Campfire.new 'challengepost', :token => 'b4d5d35d5b76618ffdb9e0cec9af2d211c61842a', :ssl => true
   end
 end
