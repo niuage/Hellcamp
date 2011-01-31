@@ -18,7 +18,12 @@ $(function() {
     e.preventDefault();
   })
 
-
+  $("form.send_message textarea").live("keyup", function(e){
+    if (e.keyCode === 13) {
+      $(this).closest("form").submit();
+    }
+    return true;
+  });
 
   $(window).resize(function() {
     var chat = $(".chat-wrapper"),
@@ -28,21 +33,30 @@ $(function() {
 
   $(".chat").scrollTo();
 
-
-
   $(".room-tab a").click(function(e) {
-    var state = {
-      controller: "rooms",
-      params: url.room.opened()
-    };
-    
-    window.history.pushState(
-      state,
-      "rooms",
-      state.controller + "/" + url.room.link_to($(this).attr("data-id"))
-      );
+    if (!$("#main-nav").is_enabled()) return false;
+    var current_id = $(this).attr("data-id"),
+    link = $(this),
+    tab = link.parent(),
+    action = "open",
+    ids = $.url().room().link_to(current_id);
 
-    e.preventDefault();
+    action = tab.hasClass("selected") ? "close" : "open"
+
+    $.room()[action](current_id);
+
+    return false;
   })
 
+  $.fn.enable = function(bool) {
+    return bool ? $(this).removeClass("disabled") : $(this).addClass("disabled");
+  }
+  $.fn.is_enabled = function() {
+    return !this.hasClass("disabled")
+  }
+
+//  $("#rooms > tbody > tr").sortable();
+  $(".room").resizable({
+    handles: "e, w"
+  });
 })

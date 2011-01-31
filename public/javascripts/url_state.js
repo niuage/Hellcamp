@@ -1,45 +1,61 @@
 (function($) {
-  var url = function() {
-    var opened_rooms = function() {
-      var rooms = []
-      $(".room").each(function() {
-        rooms.push($(this).attr("data-id"));
-      })
-      return rooms.join("-");
+  
+  $.url = function() {
+    var room = function() {
+      var url = function(id) {
+        return "/rooms/" + id;
+      }
+
+      var opened = function(options) {
+        var params = $.extend({
+          array: false
+        }, options || {})
+        var rooms = []
+        $(".room").each(function() {
+          rooms.push(parseInt($(this).attr("data-id")));
+        })
+        return params.array ? rooms : rooms.join("-");
+      }
+
+      var link_to = function(current) {
+        var rooms = opened({
+          array: true
+        }),
+        index = -1;
+        if ((index = rooms.indexOf(parseInt(current))) != -1) {
+          rooms.splice(index, 1);
+        } else {
+          rooms.push(current);
+        }
+        return rooms.join("-");
+      }
+
+      return {
+        opened: opened,
+        link_to: link_to,
+        url: url
+      }
     }
 
     return {
-      rooms: opened_rooms
-    }
-  }
-
-  var room = function() {
-
-    var open = function() {
-
-    }
-
-    var close = function() {
-
-    }
-
-    return {
-      open: open,
-      close: close
+      room: room
     }
   }
 
   var loadState = function(state) {
-    var controller = state.controller,
-    params = state.params.split("-");
-
-    $.each(params, function(i, elt) {
-      
-    });
+    //    alert("load_state => " + state.action + " " + state.room);
+    
+    if (state.action == "open") {
+      $.room().open(state.room);
+    } else {
+      $.room().close(state.room);
+    }
   }
 
   window.onpopstate = function(event) {
     var state = event.state;
-    loadState(state);
+//    alert(JSON.stringify(event.state));
+    if (state) loadState(state);
   };
+  
 })(jQuery)

@@ -1,11 +1,16 @@
 <ul id="main-nav" class="clearfix">
+  <li class="logo room-tab">
+    <a href="<%= root_path %>">
+      <%= image_tag "/images/logo.png" %>
+    </a>
+  </li>
   <% ids = @current_rooms.map(&:id) %>
   <% @rooms.each do |room| %>
     <% room_id = room.id %>
     <% room_name = room.name.downcase %>
     <% path = ((included = ids.include?(room_id)) ? ( (without = ids.reject{|id| id == room_id}).length == 0 ? [room_id] : without ) : (ids + [room_id])).join("-") %>
     <li id="tab_<%= room_name %>" class="room-tab <%= included ? "selected" : "" %>">
-      <%= link_to room.name, rooms_path(path), :"data-url" => room_path(room.id), :"data-room" => room_name, :"data-id" => room_id %>
+      <%= link_to room.name, rooms_path(path), :class => "tab_id_#{room_id}", :"data-url" => room_path(room.id), :"data-room" => room_name, :"data-id" => room_id %>
       <div class="hidden notification"></div>
     </li>
   <% end %>

@@ -85,7 +85,7 @@ html, body {
   padding: 0;
 }
 body {
-  background: #F1F1F1 url(/images/bg.jpg) 0 -388px repeat-x;
+  background: #F1F1F1 url(/images/bg.jpg) 0 -390px repeat-x;
   font:1.0em sans-serif;
   *font-size:small;
 } /* hack retained to preserve specificity */
@@ -230,7 +230,7 @@ button {  width: auto; overflow: visible; }
 
 #main-nav {
   margin: 0 12px;
-
+  height:36px;
   background: black;
 
   background: -webkit-gradient(linear, left top, left bottom, from(#333), to(#0e0e0e));
@@ -245,6 +245,10 @@ button {  width: auto; overflow: visible; }
   -moz-box-shadow: 0 0 2px #444;
   -webkit-box-shadow: 0 0 4px #333;
   boz-shadow: 0 0 6px #333;
+}
+
+#main-nav.disabled {
+  opacity: 0.8;
 }
 
 #rooms {
@@ -265,6 +269,7 @@ button {  width: auto; overflow: visible; }
 }
 #main-nav .room-tab.selected a {
   color: white;
+  background: #222;
 }
 
 #main-nav .room-tab .notification {
@@ -312,19 +317,68 @@ button {  width: auto; overflow: visible; }
   -moz-border-radius: 4px 4px 0 0;
   -webkit-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
-  padding:0 12px;
+  padding:0 4px 0 12px;
 }
 .room .header h2 {
   color: white;
+  float:left;
   font-weight:normal;
   font-size:0.875em;
 }
 
-.room .options {
+.room .search {
   background: #eee;
-  height:30px;
+  height:26px;
   border-bottom: 1px solid #ddd;
+  font-size:0.825em;
+  position: relative;
 }
+.room .search input.search-bar {
+  width: 96%;
+  height: 20px;
+  padding: 3px 2%;
+  border: 0;
+  background: none;
+}
+.room .search input.submit {
+  border: 0;
+  height:26px;
+  width:30px;
+  border-left: 1px solid #ddd;
+  background: #e0e0e0 url(/images/search.png) no-repeat 50% 50%;
+  position:absolute;
+  top:0; right:0;
+}
+
+.room .options {
+  float:right;
+}
+
+.room .options li {
+  float:left;
+}
+
+.room .options .tool {
+  display: block;
+  height:23px;
+  width:20px;
+  padding: 5px 0 0 5px;
+}
+.room .options .tool:hover,
+.room .options .tool:focus {
+  background: #444;
+}
+
+.room .options .ico {
+  height:16px;
+  width:16px;
+  display: block;
+  background: url(/images/icons.png) 0 0 no-repeat;
+}
+
+.room .options .ico-user { background-position: 0 0 }
+.room .options .ico-tools { background-position: 0 -16px }
+.room .options .ico-reload { background-position: 0 -32px }
 
 .chat-wrapper {
   height:300px;
@@ -348,7 +402,7 @@ button {  width: auto; overflow: visible; }
 .chat table td {
   font-size:0.75em;
   border-bottom: 1px solid #EFEFEF;
-
+  border-right: 1px solid #EFEFEF;
 }
 .chat table td.user {
   white-space: nowrap;
@@ -358,8 +412,9 @@ button {  width: auto; overflow: visible; }
   width:1%;
 }
 .chat table td.message {
-  padding:3px 12px 3px 0;
+  padding:3px 12px 3px 12px;
   word-break: break-all;
+  border-right: 0;
 }
 
 .speak {
@@ -388,8 +443,6 @@ button {  width: auto; overflow: visible; }
   border-collapse: separate;
   border-spacing: 13px 0;
 }
-
-
 
 
 

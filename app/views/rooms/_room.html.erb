@@ -1,12 +1,23 @@
-<td id="<%= room.name.downcase.gsub(" ", "_") %>" class="room room_<%= room_count %>" data-id="<%= room.id %>" >
+<td id="<%= room.name.downcase.gsub(" ", "_") %>" class="room room_id_<%= room.id %>" data-id="<%= room.id %>" data-url="<%= room_path(room.id) %>" >
   <div class="header">
     <h2><%= room.name %></h2>
-    <ul>
-      <li><%= link_to "", "#" %></li>
+    <ul class="options">
+      <li>
+        <a href="#" class="tool"><span class="ico ico-user"></span></a>
+      </li>
+      <li>
+        <a href="#" class="tool"><span class="ico ico-reload"></span></a>
+      </li>
+      <li>
+        <a href="#" class="tool"><span class="ico ico-tools"></span></a>
+      </li>
     </ul>
   </div>
-  <div class="options">
-    
+  <div class="search">
+    <%= form_tag search_room_path(room.id) do %>
+      <%= text_field_tag :query, "", :class => "search-bar" %>
+      <%= submit_tag "", :class => "submit" %>
+    <% end %>
   </div>
 
   <div class="chat-wrapper">

@@ -3,7 +3,7 @@
     <% room.recent_messages.each do |message| %>
       <% if (user = room.user(message[:user_id])) %>
         <tr>
-          <td class="user"><%= user[:name] %></td>
+          <td class="user"><%= user[:name].split(" ")[0] %></td>
           <td class="message"><%= message[:body] %></td>
         </tr>
       <% end %>

@@ -23,6 +23,9 @@ class RoomsController < ApplicationController
     end
   end
 
+  def search
+  end
+
   def new
     @room = Room.new
 

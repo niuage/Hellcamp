@@ -3,6 +3,9 @@ Campfire::Application.routes.draw do
     collection do
       match ":id" => "rooms#show", :constraints => { :id => /\d+(-\d+)*/ }
     end
+    member do
+      get :search
+    end
     resources :messages
   end
 

@@ -1,3 +1,5 @@
+var room_ajax = null;
+
 (function($) {
 
   $.fn.incr = function(value) {
@@ -5,12 +7,13 @@
   };
 
   $.fn.add_room = function(val, options) {
-    var params = $.extend({
-      selector: "room_"
-    }, options),
-    count = this.length;
-    this.removeClass(params.selector + count).addClass(params.selector + (count + val));
-    return $(".room");
+    return this;
+  //    var params = $.extend({
+  //      selector: "room_"
+  //    }, options),
+  //    count = this.length;
+  //    this.removeClass(params.selector + count - val).addClass(params.selector + (count + val));
+  //    return $(".room");
   }
 
   $.fn.add_notification = function() {
@@ -47,7 +50,7 @@
       var room = $(this),
       tr = room.find(".template").clone().removeClass("template");
 
-      tr.find(".user").html(data.user.name);
+      tr.find(".user").html(data.user.name.split(" ")[0]);
       tr.find(".message").html(data.body)
 
       tr.appendTo(room.find(".inner tbody"));
@@ -56,38 +59,65 @@
     })
   }
 
-  $.fn.open = function() {
-    var link = $(this),
-    tab = link.parent(),
-    url = link.attr("data-url"),
-    rooms = $(".room"),
-    count = rooms.length;
+  $.room = function() {
 
-    tab.toggleClass("selected");
-    if (tab.hasClass("selected")) {
-      // open room
+    var open = function(id) {
+      $("#main-nav").enable(false);
+      
+      var rooms = $(".room"),
+      count = rooms.length,
+      url = $.url().room().url(id);
+
       $.ajax({
         url: url,
         data: {
           room_count: (count + 1)
         },
         dataType: "script",
+        complete: function() {
+          $("#main-nav").enable(true);
+        },
         success: function() {
+          $(".tab_id_" + id).parent().addClass("selected");
+
+          if (window.history.pushState) {
+            window.history.pushState({
+              action: "close",
+              room: id
+            },
+            "rooms",
+            "/rooms/" + $.url().room().opened()
+              );
+          }
+              
           rooms.add_room(1);
           $(".room .chat").scrollTo();
-          window.history.pushState({
-
-            }, "room", url)
         }
       });
-    } else {
-      // close room
-      $("#" + link.attr("data-room")).remove();
-      rooms.add_room(-1).find(".chat").scrollTo();
+    }
+
+    var close = function(id) {
+      $(".room_id_" + id).remove();
+      $(".tab_id_" + id).parent().removeClass("selected");
+      $(".room").add_room(-1).find(".chat").scrollTo();
+
+      if (window.history.pushState) {
+        window.history.pushState({
+          action: "open",
+          room: id
+        },
+        "rooms",
+        "/rooms/" + $.url().room().opened()
+          );
+      }
+    }
+
+
+    return {
+      open: open,
+      close: close
     }
   }
-
-  
 
 })(jQuery)
 
