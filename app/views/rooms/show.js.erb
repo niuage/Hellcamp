@@ -3,4 +3,7 @@ $("#rooms > tbody > tr")
 .show(function(){
 $(".room-tab-<%= @room.id %>").remove_notifications();
 $(window).resize();
+$(".room-id-<%= @room.id %> td.message").html(function(i, html) {
+  return $.message.format(html);
+})
 });
