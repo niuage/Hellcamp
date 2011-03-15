@@ -1,21 +1,39 @@
-<script type="text/javascript" charset="utf-8">
-  $(function() {
+<% content_for :javascripts do %>
 
-    var update_page = function(data, room_name) {
-      if (!data || !data.body || !data.user) return;
-      var room = $("#" + room_name);
-      if (room.length == 1) {
-        room.post_message(data)
-      } else {
-        $("#tab_" + room_name).add_notification();
+  <script type="text/javascript" charset="utf-8">
+    $(function() {
+
+      var update_page = function(data) {
+        if (!data || !data.body) return;
+        room_id = data.room_id
+        var room = $(".room-id-" + room_id);
+      
+        if (room.length == 1) {
+          room.post_message(data)
+        } else {
+          console.log("update")
+          $(".room-tab-" + room_id).add_notification();
+        }
       }
-    }
 
-    var jug = new Juggernaut;
-<% @rooms.each do |room| %>
-      jug.subscribe("<%= room.id %>", function(data){
-        update_page(data, "<%= room.name.downcase.gsub(" ", "_") %>")
+      var socket = new io.Socket('localhost', {port: 3000, rememberTransport: false});
+
+      socket.on('connect', function() {
+        console.log('connected');
       });
+
+      socket.on('message', function(message){
+        console.log(message)
+        message = $.parseJSON(message);
+        update_page(message);
+      }) ;
+
+      socket.on('disconnect', function() {
+        console.log('disconnected');
+      });
+
+      socket.connect();
+    })
+  </script>
+
 <% end %>
-  })
-</script>

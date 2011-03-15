@@ -7,13 +7,14 @@ var room_ajax = null;
   };
 
   $.fn.add_room = function(val, options) {
-    return this;
-  //    var params = $.extend({
-  //      selector: "room_"
-  //    }, options),
-  //    count = this.length;
-  //    this.removeClass(params.selector + count - val).addClass(params.selector + (count + val));
-  //    return $(".room");
+    
+    var params = $.extend({
+      selector: "room_"
+    }, options),
+    count = this.length;
+    this.removeClass(params.selector + (count - val)).addClass(params.selector + (count + val));
+    return $(".room");
+//    return this;
   }
 
   $.fn.add_notification = function() {
@@ -50,8 +51,11 @@ var room_ajax = null;
       var room = $(this),
       tr = room.find(".template").clone().removeClass("template");
 
-      tr.find(".user").html(data.user.name.split(" ")[0]);
-      tr.find(".message").html(data.body)
+      if (data.user) {
+        tr.find(".user").html(data.user.name.split(" ")[0]);
+      }
+
+      tr.find(".message").html( $.message.format(data.body) )
 
       tr.appendTo(room.find(".inner tbody"));
 
@@ -78,7 +82,7 @@ var room_ajax = null;
           $("#main-nav").enable(true);
         },
         success: function() {
-          $(".tab_id_" + id).parent().addClass("selected");
+          $(".tab-id-" + id).parent().addClass("selected");
 
           if (window.history.pushState) {
             window.history.pushState({
@@ -97,8 +101,8 @@ var room_ajax = null;
     }
 
     var close = function(id) {
-      $(".room_id_" + id).remove();
-      $(".tab_id_" + id).parent().removeClass("selected");
+      $(".room-id-" + id).remove();
+      $(".tab-id-" + id).parent().removeClass("selected");
       $(".room").add_room(-1).find(".chat").scrollTo();
 
       if (window.history.pushState) {

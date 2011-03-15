@@ -5,7 +5,7 @@ class HomeController < ApplicationController
 
   def server
     @rooms.each do |room|
-      Resque.enqueue(Server, room.id)
+      
     end
   end
 

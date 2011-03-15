@@ -2,9 +2,9 @@
 <html>
   <head>
     <title>ChallengeCamp</title>
-    <%= stylesheet_link_tag "style", "ui" %>
-    <%= javascript_include_tag "jquery-1.4.4.min", 'jUi', "rails", "application", "jscroll", "rooms", "url_state" %>
-    <script src="http://localhost:8080/application.js" type="text/javascript" charset="utf-8"></script>
+    <%= render "layouts/stylesheets" %>
+    
+<%#*<script src="/socket.io/socket.io.js"></script>%>
     <%= csrf_meta_tag %>
   </head>
   <body>
@@ -14,4 +14,6 @@
     <%= yield %>
 
   </body>
+
+  <%= render "layouts/javascripts" %>
 </html>

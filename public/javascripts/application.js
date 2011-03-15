@@ -3,7 +3,6 @@
 
 $(function() {
 
-
   $("form.send_message").live("submit", function(e) {
     var form = $(this),
     data = form.serialize();
@@ -26,27 +25,14 @@ $(function() {
   });
 
   $(window).resize(function() {
-    var chat = $(".chat-wrapper"),
-    new_h = $(this).height() - chat.offset().top - $(".speak").outerHeight() - 24;
-    chat.height(new_h);
+    var chat = $(".chat-wrapper");
+    if (chat.length >= 1) {
+      var new_h = $(this).height() - chat.offset().top - $(".speak").outerHeight() - 24;
+      chat.height(new_h);
+    }
   }).resize();
 
   $(".chat").scrollTo();
-
-  $(".room-tab a").click(function(e) {
-    if (!$("#main-nav").is_enabled()) return false;
-    var current_id = $(this).attr("data-id"),
-    link = $(this),
-    tab = link.parent(),
-    action = "open",
-    ids = $.url().room().link_to(current_id);
-
-    action = tab.hasClass("selected") ? "close" : "open"
-
-    $.room()[action](current_id);
-
-    return false;
-  })
 
   $.fn.enable = function(bool) {
     return bool ? $(this).removeClass("disabled") : $(this).addClass("disabled");
@@ -55,8 +41,12 @@ $(function() {
     return !this.hasClass("disabled")
   }
 
-//  $("#rooms > tbody > tr").sortable();
+  //  $("#rooms > tbody > tr").sortable();
   $(".room").resizable({
     handles: "e, w"
   });
+
+  $("td.message").html(function(i, html) {
+    return $.message.format(html);
+  })
 })

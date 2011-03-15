@@ -1,6 +1,6 @@
 $("#rooms > tbody > tr")
 .append("<%= escape_javascript( render "rooms/room", :room => @room, :room_count => @room_count ) %>")
 .show(function(){
-$("#tab_<%= @room.name.downcase.gsub(" ", "_") %>").remove_notifications();
+$(".room-tab-<%= @room.id %>").remove_notifications();
 $(window).resize();
 });
