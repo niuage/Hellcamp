@@ -11,6 +11,7 @@ var Bot = function(options) {
 
 Bot.prototype.action = function() {
 
+  var actions = this.action;
   var client = this.client;
   var interpret = this.interpret;
 
@@ -50,6 +51,20 @@ Bot.prototype.action = function() {
     new Browser().status(params, callback);
   }
 
+  var help = function(message, params, callback) {
+    var help = "",
+    obj = actions();
+
+    for (p in obj) {
+      var a = obj[p]
+      help += p + " -- " + (a.description || "") + "\n" + (a.usage || "") + "\n\n"
+    }
+    callback({
+      body: help,
+      type: "PasteMessage"
+    })
+  }
+
   var deploy = function(message, params, callback) {
     var env = {
       production: {
@@ -60,20 +75,56 @@ Bot.prototype.action = function() {
       }
     }
     callback({
-      body: env[params[0]].url
+      body: env[params[0]] ? env[params[0]].url : "Unknown environment"
     });
   }
 
   return {
-    search: search_image,
-    deploy: deploy,
-    say: say,
-    status: status,
-    youtube: search_youtube,
-    set: set,
-    get: get,
-    bim: gset,
-    boom: gget
+    search: {
+      action: search_image,
+      description: "Search google images",
+      usage: "/search [query]"
+    },
+    deploy: {
+      action: deploy,
+      description: "Announce a deploy",
+      usage: "/deploy [production | staging]"
+    },
+    say: {
+      action: say,
+      description: "Cowsay",
+      usage: "/say [expression]"
+    },
+    youtube: {
+      action: search_youtube,
+      description: "Search youtube videos",
+      usage: "/youtube [query]"
+    },
+    set: {
+      action: set,
+      description: "Set the string value of a key (campfire store)",
+      usage: "/set key value"
+    },
+    get: {
+      action: get,
+      description: "Get the value of a key (campfire store)",
+      usage: "/get key"
+    },
+    bim: {
+      action: gset,
+      description: "Set the string value of a key (personal store)",
+      usage: "/bim key value"
+    },
+    boom: {
+      action: gget,
+      description: "Get the value of a key (personal store)",
+      usage: "/get key"
+    },
+    help: {
+      action: help,
+      description: "List of commands",
+      usage: "/help"
+    }
   };
 }
 
@@ -102,7 +153,7 @@ Bot.prototype.interpret = function(message, callback) {
   }
 
   system.puts("params are: " + params);
-  this.action()[action](message, params, callback);
+  this.action()[action].action(message, params, callback);
 }
 
 exports.Bot = Bot;

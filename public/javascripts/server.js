@@ -4,6 +4,7 @@ Bot = require('./bot').Bot;
 
 const PORT = 3000;
 const HOST = 'localhost';
+const ROOMS = [348877, 357538, 273935, 360348, 389064, 301042]
 
 var express = require('express');
 var app = module.exports = express.createServer();
@@ -17,7 +18,7 @@ const io = require('socket.io');
 app.listen(PORT, HOST);
 console.log("Express server listening on port %d", app.address().port)
 
-const socket  = io.listen(app);
+//const socket  = io.listen(app);
 
 var johnny5 = new Bot({
   command: "j5",
@@ -26,6 +27,14 @@ var johnny5 = new Bot({
     account : 'challengepost',
     ssl: true
   })
+});
+
+process.on('uncaughtException', function (err) {
+  system.puts('Caught exception: ' + err);
+
+  for (i = 0; i < ROOMS.length; i++) {
+    listen(ROOMS[i]);
+  }
 });
 
 var instance = johnny5.campfire;
@@ -109,7 +118,7 @@ var subscribe = function(room_id) {
 var listen = function(room_id) {
   instance.room(room_id, function(room) {
     room.join(function() {
-      subscribe(room_id);
+      //      subscribe(room_id);
       room.listen(function(message) {
         handle_message(room, message);
       });
@@ -120,9 +129,7 @@ var listen = function(room_id) {
 
 ///////////////////////////////////////////////////////
 
-rooms = [348877, 357538, 273935, 360348, 389064, 301042]
-
-for (i = 0; i < rooms.length; i++) {
-  listen(rooms[i]);
+for (i = 0; i < ROOMS.length; i++) {
+  listen(ROOMS[i]);
 }
 
