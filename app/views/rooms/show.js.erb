@@ -2,7 +2,7 @@ $("#rooms > tbody > tr")
 .append("<%= escape_javascript( render "rooms/room", :room => @room, :room_count => @room_count ) %>")
 .show(function(){
 $(".room-tab-<%= @room.id %>").remove_notifications();
-$(window).resize();
+$(".room").resize();
 $(".room-id-<%= @room.id %> td.message").html(function(i, html) {
   return $.message.format(html);
 })

@@ -252,6 +252,7 @@ button {  width: auto; overflow: visible; }
 }
 
 #rooms {
+/*  table-layout: fixed;*/
   width:100%;
   padding-top: 18px;
 }
@@ -423,7 +424,7 @@ button {  width: auto; overflow: visible; }
   padding: 12px 16px 12px 12px;
 }
 
-.room_1 { width:100%; }
+/*.room_1 { width:100%; }
 .room_2 { width:50%; }
 .room_3 { width:33%; }
 .room_4 { width:25%; }
@@ -432,7 +433,7 @@ button {  width: auto; overflow: visible; }
 .room_7 { width:14.2%; }
 .room_8 { width:12.5%; }
 .room_9 { width:11%; }
-.room_10 { width:10%; }
+.room_10 { width:10%; }*/
 
 
 .template {

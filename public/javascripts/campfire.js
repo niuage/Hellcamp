@@ -1,3 +1,4 @@
+var system = require('sys');
 var http   = require('http');
 var https  = require('https');
 var encode = require('./base64').encode;
@@ -140,26 +141,38 @@ Campfire.Room.prototype.listen = function(callback) {
       'Host'          : 'streaming.campfirenow.com',
       'Authorization' : campfire.authorization
     }
-  };
+  },
+  room = this,
+  req = null;
+  
+  var listen_to = function(options, restart) {
+    system.puts("START LISTENING TO ROOM " + room.name + " (id=" + room.id + ")");
+    req = campfire.http.request(options, function(response) {
+      response.setEncoding('utf8');
+      response.on('data', function(chunk) {
+        if (chunk.trim() == '') return;
+        system.puts("new message data [" + chunk + "]");
 
-  campfire.http.request(options, function(response) {
-    response.setEncoding('utf8');
-    response.on('data', function(chunk) {
-      if (chunk.trim() == '') {
-        return;
-      }
+        chunk = chunk.split("\r");
 
-      chunk = chunk.split("\r");
-
-      for (var i = 0; i < chunk.length; ++i) {
-        if (chunk[i].trim() != '') {
-          try {
-            callback(JSON.parse(chunk[i]));
-          } catch(e) {}
+        for (var i = 0; i < chunk.length; ++i) {
+          if (chunk[i].trim() != '') {
+            try {
+              callback(JSON.parse(chunk[i]));
+            } catch(e) {}
+          }
         }
-      }
-    });
-  }).end();
+      });
+
+      response.on("end", function(data) {
+        system.puts("END: NOT LISTENING TO THE ROOM " + room.name + " (id=" + room.id + ")");
+        restart(options, restart);
+      })
+
+    }).end();
+  }
+
+  listen_to(options, listen_to);
 },
 
 Campfire.Room.prototype.speak = function(text, callback) {
@@ -178,7 +191,7 @@ Campfire.Room.prototype.message = function(text, type, callback) {
   this.post('/speak', {
     message : {
       body : text,
-      type : type
+      type : type || "TextMessage"
     }
   }, callback);
 };

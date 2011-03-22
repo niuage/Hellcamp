@@ -6,15 +6,15 @@ var room_ajax = null;
     return this.text(parseInt(this.text() || 0) + value);
   };
 
-  $.fn.add_room = function(val, options) {
+  $.fn.add_room = function(val) {
+    return this.resize_rooms(this);
+  }
+
+  $.fn.resize_rooms = function(_rooms) {
+    var rooms = _rooms || $(".room");
     
-    var params = $.extend({
-      selector: "room_"
-    }, options),
-    count = this.length;
-    this.removeClass(params.selector + (count - val)).addClass(params.selector + (count + val));
-    return $(".room");
-//    return this;
+    //    return rooms.attr("width", (($(window).width() - ( (rooms.length + 1) * 13 )) / rooms.length) + "px" );
+    return rooms;
   }
 
   $.fn.add_notification = function() {
@@ -94,11 +94,10 @@ var room_ajax = null;
               );
           }
               
-          rooms.add_room(1);
-          $(".room .chat").scrollTo();
+          $(".room").add_room(1).find(".chat").scrollTo();
         }
       });
-    }
+    };
 
     var close = function(id) {
       $(".room-id-" + id).remove();
@@ -114,7 +113,7 @@ var room_ajax = null;
         "/rooms/" + $.url().room().opened()
           );
       }
-    }
+    };
 
 
     return {

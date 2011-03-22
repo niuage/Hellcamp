@@ -42,9 +42,10 @@ $(function() {
   }
 
   //  $("#rooms > tbody > tr").sortable();
-  $(".room").resizable({
+  var rooms = $(".room");
+  rooms.resizable({
     handles: "e, w"
-  });
+  }).resize_rooms();
 
   $("td.message").html(function(i, html) {
     return $.message.format(html);

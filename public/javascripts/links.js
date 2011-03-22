@@ -153,7 +153,7 @@ var ImageAutolink = {
 
   inline_image: function(url) {
     return '<a href="'  + url + '" class="image loading" target="_blank">' +
-    '<img src="' + url + ' /></a>';
+    '<img src="' + url + '" /></a>';
   },
 
   link: function(text, replacement) {
