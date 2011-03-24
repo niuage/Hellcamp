@@ -56,6 +56,10 @@ Browser.prototype.request = function(method, path, body, opts, callback) {
   request.end();
 };
 
+Browser.prototype.get = function(path, opts, callback) {
+  this.request("GET", path, null, opts, callback);
+}
+
 Browser.prototype.status = function(params, callback) {
   var result = this.request("GET", "/", null, {
     request: {
@@ -73,7 +77,7 @@ Browser.prototype.status = function(params, callback) {
 }
 
 Browser.prototype.search_image = function(params, callback) {
-  var result = this.request("GET", "/ajax/services/search/images?v=1.0&q=" + params[0].split(" ").join("+"), null, {
+  var result = this.get("/ajax/services/search/images?v=1.0&q=" + params[0].split(" ").join("+"), {
     request: {
       host    : "ajax.googleapis.com"
     },
@@ -87,9 +91,8 @@ Browser.prototype.search_image = function(params, callback) {
         body: res[pos].unescapedUrl
       });
     } else {
-      s.puts("NOT FOUND");
       callback({
-        body: "Johnny 5 could not find any images matching " + params[0]
+        body: "No images found for '" + params[0] + "'"
       });
     }
   })
@@ -109,17 +112,32 @@ Browser.Url.prototype.format = function(params) {
 }
 
 Browser.prototype.search_youtube = function(params, callback) {
-  var result = this.request("GET", "/feeds/api/videos?q=" + params[0].split(" ").join("+") +"&max-results=2&v=2&alt=json", null, {
+  var result = this.get("/feeds/api/videos?q=" + params[0].split(" ").join("+") +"&max-results=2&v=2&alt=json", {
     request: {
       host: "gdata.youtube.com"
     }
   }, function(data) {
     s.puts("youtube result");
     res = eval( "(" + data + ")" );
-    callback({body:  res.feed.entry[0]["media$group"]["media$player"].url });
+    callback({
+      body:  res.feed.entry[0]["media$group"]["media$player"].url
+    });
   })
 
   result.end();
+}
+
+Browser.prototype.text_meme = function(params, callback) {
+  var result = this.get("/text.json", {
+    request: {
+      host: "api.automeme.net"
+    }
+  }, function(data) {
+    res = eval( "(" + data + ")" );
+    callback({
+      body: res[0]
+    })
+  });
 }
 
 exports.Browser = Browser;

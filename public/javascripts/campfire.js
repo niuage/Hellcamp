@@ -146,30 +146,30 @@ Campfire.Room.prototype.listen = function(callback) {
   req = null;
   
   var listen_to = function(options, restart) {
-    system.puts("START LISTENING TO ROOM " + room.name + " (id=" + room.id + ")");
-    req = campfire.http.request(options, function(response) {
-      response.setEncoding('utf8');
-      response.on('data', function(chunk) {
-        if (chunk.trim() == '') return;
-        system.puts("new message data [" + chunk + "]");
+    system.puts("LISTEN TO " + room.name + " (id=" + room.id + ")");
+    room.join(function() {
+      req = campfire.http.request(options, function(response) {
+        response.setEncoding('utf8');
+        response.on('data', function(chunk) {
+          if (chunk.trim() == '') return;
+          chunk = chunk.split("\r");
 
-        chunk = chunk.split("\r");
-
-        for (var i = 0; i < chunk.length; ++i) {
-          if (chunk[i].trim() != '') {
-            try {
-              callback(JSON.parse(chunk[i]));
-            } catch(e) {}
+          for (var i = 0; i < chunk.length; ++i) {
+            if (chunk[i].trim() != '') {
+              try {
+                callback(JSON.parse(chunk[i]));
+              } catch(e) {}
+            }
           }
-        }
-      });
+        });
 
-      response.on("end", function(data) {
-        system.puts("END: NOT LISTENING TO THE ROOM " + room.name + " (id=" + room.id + ")");
-        restart(options, restart);
-      })
+        response.on("end", function(data) {
+          system.puts("LEAVE FROM " + room.name + " (id=" + room.id + ")");
+          restart(options, restart);
+        })
 
-    }).end();
+      }).end();
+    })
   }
 
   listen_to(options, listen_to);
