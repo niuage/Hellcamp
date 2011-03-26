@@ -6,6 +6,7 @@ var J5 = require("./engines/j5").J5
 var Pivotal = require("./engines/pivotal").Pivotal
 var Weather = require("./engines/weather").Weather
 var Flickr = require("./engines/flickr").Flickr
+var BoomStore = require("./engines/boom_store").BoomStore
 
 var server = new Server({
   port: 3000,
@@ -23,13 +24,16 @@ weather = new Weather({
 pivotal = new Pivotal({
   
   }),
+boom_store = new BoomStore({
+    
+  }),
 j5 = new J5({
   
   });
 
 
 johnny5 = new Bot({
-  engines: [flickr, weather, pivotal, j5],
+  engines: [boom_store, flickr, weather, pivotal, j5],
   campfire: new Campfire({
     token: 'ea9f77add0b6ba0aa54e79d7c1111aabbf9aec01',
     account: "niuage",

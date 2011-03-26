@@ -6,7 +6,6 @@ var RedisStore = function(options) {
 }
 
 RedisStore.prototype.command = function(params, callback) {
-  params = params[0].split(" ");
   if (params.length <= 1) {
     callback({
       body: "Invalid parameters"
@@ -14,8 +13,8 @@ RedisStore.prototype.command = function(params, callback) {
     return null;
   }
   return {
-    key: params [0],
-    value: params.slice(1, params.length).join(" ")
+    key: params.shift(),
+    value: params.shift()
   }
 }
 
@@ -39,96 +38,28 @@ RedisStore.prototype.gget = function(message, params, callback) {
 }
 
 RedisStore.prototype.rset = function(key, value, callback) {
-  this.client.set(key.join(":"), value, function(err, reply) {
-    system.puts("REDIS: " + reply);
-    callback({
-      body: reply
-    });
-  });
+  this.func("set", key, value, callback);
 }
 
 RedisStore.prototype.rget = function(key, callback) {
-  this.client.get(key.join(":"), function(err, reply) {
-    callback({
-      body: reply ? reply.toString() : "(nil)"
-    });
-    system.puts("REDIS: " + reply);
-  });
+  this.func("get", key, null, callback);
 }
 
 RedisStore.prototype.append = function(key, value, callback) {
-  this.client.append(key.join(":"), value, function(err, reply) {
+  this.func("append", key, value, callback);
+}
+
+RedisStore.prototype.func = function(func, key, value, callback) {
+  var args = [key.join(":")]
+  if (value) args.push(value);
+  args.push(function(err, reply) {
+    system.puts("called");
     callback({
       body: reply ? reply.toString() : "(nil)"
     });
     system.puts("REDIS: " + reply);
   });
-}
-
-RedisStore.prototype.new_order = function(message, params, callback) {
-  order = params[0];
-  this.rset([order], "", callback);
-  this.rset(["current_order"], order, function() {});
-  this.append(["orders"], order, function() {});
-}
-
-RedisStore.prototype.order = function(message, params, callback) {
-  var self = this;
-  system.puts("call order");
-  self.client.get(["current_order"].join(":"), function(err, order) {
-    if (order) {
-      self.client.exists([order, message.user_id].join(":"), function(err, exist) {
-        if (!exist) {
-          self.client.append([order, "ids"].join(":"), function() {
-            
-            });
-        }
-        self.client.set([order, message.user_id].join(":"), params[0], function(err, ordered) {
-          callback({
-            body: ordered ? ordered.toString() : "(nil)"
-          });
-        });
-      })
-    }
-  });
-}
-
-RedisStore.prototype.myorder = function(message, params, callback) {
-  var client = this.client;
-  client.get(["current_order"], function(err, order) {
-    if (order) {
-      client.get([order, message.user_id].join(":"), function(err, order) {
-        callback({
-          body: order ? order : "Empty"
-        })
-      })
-    }
-  });
-}
-
-RedisStore.prototype.getorder = function(message, params, callback) {
-  var self = this;
-  self.client.get(["current_order"].join(":"), function(err, order) {
-    if (order) {
-      self.client.get([order, "ids"].join(":"), function(err, ids) {
-        if ((ids = ids.split(":"))) {
-          res = "";
-          for (i in ids) {
-            if (ids[i]) {
-              self.client.get([order, ids[i]], function(err, myorder) {
-                res += myorder + " -- ";
-                if (i == ids.length) {
-                  callback({
-                    body: res
-                  })
-                }
-              })
-            }
-          }
-        }
-      })
-    }
-  });
+  this.client[func].apply(this.client, args);
 }
 
 exports.RedisStore = RedisStore;

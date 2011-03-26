@@ -1,6 +1,5 @@
 var system   = require('sys');
 var Klass = require("../libs/class").Klass;
-
 (new Klass()).define();
 
 var Engine = Class.extend({

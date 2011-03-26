@@ -1,6 +1,6 @@
 var system   = require('sys');
 var exec = require('child_process').exec;
-var Browser = require("../libs/browser").Browser;
+var GoogleApi = require("../apis/google").GoogleApi;
 var Engine = require("./engine").Engine;
 
 var J5 = Engine.extend({
@@ -11,17 +11,25 @@ var J5 = Engine.extend({
 
   init: function(opts) {
     this._super();
-    this.browser = new Browser({});
+    this.google = new GoogleApi({});
   },
 
   bind: function(bot) {
     this._super(bot);
 
+    bot.on("/search\\s(.+)", function(message, matches, callback) {
+      this.google.search(matches, callback);
+    })
+
     bot.on("^/(\\w+)\\s?(.*)", function(message, matches, callback) {
-      if ((action = this.commands()[matches.shift()])) {
+      var command = matches.shift();
+      system.puts(this.commands()[command]);
+      if ((action = this.commands()[command])) {
         action.action.apply(this, [message, matches, callback]);
       }
     });
+
+    
 
     bot.on("!here (.*)", function(message, matches, callback) {
       callback({
@@ -41,31 +49,16 @@ var J5 = Engine.extend({
       })
     }
 
-    var text_meme = function(message, params, callback) {
-      this.browser.text_meme(params, callback);
-    }
-
     var search_image = function(message, params, callback) {
-      this.browser.search_image(params, callback);
+      system.puts(this.google.search);
+      this.google.search(params, callback);
     }
 
     var search_youtube = function(message, params, callback) {
       this.browser.search_youtube(params, callback);
     }
 
-    var set = function(message, params, callback) {
-      this.store.set(message, params, callback);
-    }
-    var get = function(message, params, callback) {
-      this.store.get(message, params, callback)
-    }
-
-    var gset = function(message, params, callback) {
-      this.store.gset(message, params, callback);
-    }
-    var gget = function(message, params, callback) {
-      this.store.gget(message, params, callback)
-    }
+    
 
     var help = function(message, params, callback) {
       var help = "",
@@ -152,11 +145,6 @@ var J5 = Engine.extend({
         action: help,
         description: "List of commands",
         usage: "/help"
-      },
-      meme: {
-        action: text_meme,
-        description: "Answer with a random text meme",
-        usage: "/meme"
       }
     };
   }

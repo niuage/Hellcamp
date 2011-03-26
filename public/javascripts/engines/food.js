@@ -36,3 +36,69 @@ var Food = Engine.extend({
 })
 
 exports.Food = Food;
+
+//RedisStore.prototype.new_order = function(message, params, callback) {
+//  order = params[0];
+//  this.rset([order], "", callback);
+//  this.rset(["current_order"], order, function() {});
+//  this.append(["orders"], order, function() {});
+//}
+//
+//RedisStore.prototype.order = function(message, params, callback) {
+//  var self = this;
+//  system.puts("call order");
+//  self.client.get(["current_order"].join(":"), function(err, order) {
+//    if (order) {
+//      self.client.exists([order, message.user_id].join(":"), function(err, exist) {
+//        if (!exist) {
+//          self.client.append([order, "ids"].join(":"), function() {
+//
+//            });
+//        }
+//        self.client.set([order, message.user_id].join(":"), params[0], function(err, ordered) {
+//          callback({
+//            body: ordered ? ordered.toString() : "(nil)"
+//          });
+//        });
+//      })
+//    }
+//  });
+//}
+//
+//RedisStore.prototype.myorder = function(message, params, callback) {
+//  var client = this.client;
+//  client.get(["current_order"], function(err, order) {
+//    if (order) {
+//      client.get([order, message.user_id].join(":"), function(err, order) {
+//        callback({
+//          body: order ? order : "Empty"
+//        })
+//      })
+//    }
+//  });
+//}
+//
+//RedisStore.prototype.getorder = function(message, params, callback) {
+//  var self = this;
+//  self.client.get(["current_order"].join(":"), function(err, order) {
+//    if (order) {
+//      self.client.get([order, "ids"].join(":"), function(err, ids) {
+//        if ((ids = ids.split(":"))) {
+//          res = "";
+//          for (i in ids) {
+//            if (ids[i]) {
+//              self.client.get([order, ids[i]], function(err, myorder) {
+//                res += myorder + " -- ";
+//                if (i == ids.length) {
+//                  callback({
+//                    body: res
+//                  })
+//                }
+//              })
+//            }
+//          }
+//        }
+//      })
+//    }
+//  });
+//}

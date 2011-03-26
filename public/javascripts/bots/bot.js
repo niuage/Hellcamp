@@ -6,7 +6,9 @@ var Bot = function(options) {
   this.rooms = options.rooms;
   this.events = {};
   this.engines = options.engines;
-  this.id = this.me();
+  this.me(function(id) {
+    this.id = id;
+  });
   this.init_engines();
 }
 
@@ -37,10 +39,10 @@ Bot.prototype.start = function() {
   }
 }
 
-Bot.prototype.me = function() {
+Bot.prototype.me = function(callback) {
   var self = this;
-  self.campfire.me(function(me) {
-    self.id = me.user.id;
+  this.campfire.me(function(me) {
+    callback.apply(self, [me.user.id]);
   })
 }
 
