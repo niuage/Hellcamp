@@ -61,7 +61,9 @@ Campfire.prototype.request = function(method, path, body, callback) {
   var headers = {
     'Authorization' : this.authorization,
     'Host'          : this.domain,
-    'Content-Type'  : 'application/json'
+    'Content-Type'  : 'application/json',
+    'Connection': 'keep-alive',
+    'Keep-Alive': 115
   };
 
   if (method == 'POST') {
@@ -91,14 +93,13 @@ Campfire.prototype.request = function(method, path, body, callback) {
         try {
           data = JSON.parse(data);
         } catch(e) {}
-
         callback(data);
       });
     }
   });
 
   if (method == 'POST') {
-    request.write(body);
+    request.write(body, encoding="ascii");
   }
 
   request.end();

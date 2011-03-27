@@ -7,6 +7,9 @@ var Klass = require("../libs/class").Klass;
 
 var Browser = Class.extend({
 
+  init: function() {
+  },
+
   request: function(method, path, body, opts, callback) {
     var req = opts.request || {},
     ssl = opts.ssl || false,
@@ -31,7 +34,7 @@ var Browser = Class.extend({
     var options = {
       host    : req.host,
       port    : req.port || (ssl ? 443 : 80),
-      method  : req.method || "GET",
+      method  : method || "GET",
       path    : path,
       headers : headers
     };

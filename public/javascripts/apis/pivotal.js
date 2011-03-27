@@ -1,13 +1,16 @@
 var system   = require('sys');
-var Api = require("./api").Api
+var exec = require('child_process').exec;
+var Api = require("./api").Api;
+var LibXml = require("libxmljs");
 
 var PivotalApi = Api.extend({
 
   init: function(opts) {
-    this._super(opts)
+    this._super(opts);
+    this.parser = LibXml;
   },
 
-  search: function(parser, params, callback) {
+  search: function(params, callback) {
     //  system.puts("get_story");
     //  this.request("POST", "/services/v3/projects/80286/stories/" + params[0].toString(), "", {
     //    request: {
@@ -24,10 +27,14 @@ var PivotalApi = Api.extend({
     //    })
     //  });
 
+    var self = this;
     // cheat with curl, should be done with a standard POST request
-
-    exec("curl -H 'X-TrackerToken: ea1853c2bf4b33a7147517100d6e2372' -X GET http://www.pivotaltracker.com/services/v3/projects/80286/stories/" + params[0], function(error, out, err) {
-      var story = parser.parseXmlString(out).get("/");
+    var url = this.template("http://www.pivotaltracker.com/services/v3/projects/<%project%>/stories/<%story%>", {
+      project: "80286",
+      story: params[0]
+    });
+    exec("curl -H 'X-TrackerToken: ea1853c2bf4b33a7147517100d6e2372' -X GET " + url, function(error, out, err) {
+      var story = self.parser.parseXmlString(out).get("/");
       var attachments = (a = story.get("//attachment")) ? a.get("./url").text() : null;
 
       var body = {

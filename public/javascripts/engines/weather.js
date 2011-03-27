@@ -1,6 +1,7 @@
 var system   = require('sys');
 var Browser = require("../libs/browser").Browser;
 var Engine = require("./engine").Engine;
+var WeatherApi = require("../apis/weather").WeatherApi
 
 var Weather = Engine.extend({
   info: {
@@ -11,18 +12,18 @@ var Weather = Engine.extend({
   init: function(opts) {
     this._super();
     this.browser = new Browser({});
-    this.partner_id = opts.partner_id,
-    this.key = opts.key
-  //A4458161574
+    this.weather = new WeatherApi(opts.weather_api)
   },
 
   bind: function(bot) {
     this._super(bot);
-    bot.on("^/weather", function(message, matches, callback) {
-      callback({
-        body: "ok"
-      })
-    })
+    bot.on("/weather\\s+(.+)", function(message, matches, callback) {
+      this.weather.search(matches, callback);
+    });
+
+    bot.on("/codes\\s+(.+)", function(message, matches, callback) {
+      this.weather.location_codes(matches, callback);
+    });
   }
 })
 

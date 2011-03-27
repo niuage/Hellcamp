@@ -14,11 +14,12 @@ var FlickrApi = Api.extend({
       }
     }, function(data) {
       var jsonFlickrApi = function(data) {
-        res = eval( "(" + data + ")" ).photo;
+        var photo = data.photo;
         callback({
-          body: "http://farm1.static.flickr.com/" + res.server + "/" + res.id + "_" + res.secret + ".jpg"
+          body: "http://farm1.static.flickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg"
         })
       }
+      eval( "(" + data + ")" );
     })
   }
 

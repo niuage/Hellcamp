@@ -3,18 +3,23 @@ var Api = require("./api").Api
 
 var YoutubeApi = Api.extend({
 
-  init: function() {
-
+  init: function(opts) {
+    this._super(opts);
   },
 
   search: function(params, callback) {
-    var result = this.get("/feeds/api/videos?q=" + params[0].split(" ").join("+") +"&max-results=2&v=2&alt=json", {
+    var query = this.encode({
+      q: params[0],
+      "max-results": 1,
+      v: 2,
+      alt: "json"
+    });
+    var result = this.browser.get("/feeds/api/videos?" + query, {
       request: {
         host: "gdata.youtube.com"
       }
     }, function(data) {
-      system.puts("youtube result");
-      res = eval( "(" + data + ")" );
+      res = JSON.parse(data);
       callback({
         body:  res.feed.entry[0]["media$group"]["media$player"].url
       });

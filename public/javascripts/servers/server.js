@@ -26,9 +26,7 @@ Server.prototype.add_bot = function(bot) {
 
 Server.prototype.start = function() {
   for(i = 0; i < this.bots.length; i++) {
-    var bot = this.bots[i];
-
-    bot.start();
+    this.bots[i].start();
   }
 }
 

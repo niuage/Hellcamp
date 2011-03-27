@@ -7,6 +7,7 @@ var Pivotal = require("./engines/pivotal").Pivotal
 var Weather = require("./engines/weather").Weather
 var Flickr = require("./engines/flickr").Flickr
 var BoomStore = require("./engines/boom_store").BoomStore
+var Translation = require("./engines/translation").Translation
 
 var server = new Server({
   port: 3000,
@@ -18,22 +19,22 @@ var flickr = new Flickr({
   
   }),
 weather = new Weather({
-  partner_id: '1245671229',
-  key: 'c5289d5b3b5fd943'
+  weather_api: {
+    credentials: {
+      key: 'c5289d5b3b5fd943',
+      secret: '1245671229'
+    },
+    default_location: "10014"
+  }
 }),
-pivotal = new Pivotal({
-  
-  }),
-boom_store = new BoomStore({
-    
-  }),
-j5 = new J5({
-  
-  });
+pivotal = new Pivotal({}),
+boom_store = new BoomStore({}),
+translation = new Translation({}),
+j5 = new J5({});
 
 
 johnny5 = new Bot({
-  engines: [boom_store, flickr, weather, pivotal, j5],
+  engines: [j5, translation, pivotal, boom_store, flickr, weather],
   campfire: new Campfire({
     token: 'ea9f77add0b6ba0aa54e79d7c1111aabbf9aec01',
     account: "niuage",
@@ -51,5 +52,6 @@ server.start();
 
 process.on('uncaughtException', function (err) {
   system.puts('Caught exception: ' + err);
-  server.start();
+// find a way to see if we're still listening to the rooms after the uncaught exception
+// server.start();
 });

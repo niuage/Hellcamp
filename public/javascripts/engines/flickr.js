@@ -1,6 +1,6 @@
 var system   = require('sys');
-var Browser = require("../libs/browser").Browser;
 var Engine = require("./engine").Engine;
+var FlickrApi = require("../apis/flickr").FlickrApi;
 
 var Flickr = Engine.extend({
   info: {
@@ -10,13 +10,13 @@ var Flickr = Engine.extend({
 
   init: function(opts) {
     this._super();
-    this.browser = new Browser({});
+    this.flickr = new FlickrApi();
   },
 
   bind: function(bot) {
     this._super(bot);
     bot.on("flickr.com/photos/(?:.*)/(\\d+)", function(message, matches, callback) {
-      this.browser.flickr(matches, callback);
+      this.flickr.search(matches, callback);
     });
   }
 })
