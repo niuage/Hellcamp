@@ -8,6 +8,7 @@ var Weather = require("./engines/weather").Weather
 var Flickr = require("./engines/flickr").Flickr
 var BoomStore = require("./engines/boom_store").BoomStore
 var Translation = require("./engines/translation").Translation
+var Tmdb = require("./engines/tmdb").Tmdb
 
 var server = new Server({
   port: 3000,
@@ -16,8 +17,12 @@ var server = new Server({
 
 // ENGINES
 var flickr = new Flickr({
-  
-  }),
+  flickr_api: {
+    credentials: {
+      key: "2bc972efba6309fe9376d55482ab32bb"
+    }
+  }
+}),
 weather = new Weather({
   weather_api: {
     credentials: {
@@ -27,6 +32,13 @@ weather = new Weather({
     default_location: "10014"
   }
 }),
+tmdb = new Tmdb({
+  tmdb_api: {
+    credentials: {
+      key: "0feeb53d4f29c916ce155789b1cfda00"
+    }
+  }
+}),
 pivotal = new Pivotal({}),
 boom_store = new BoomStore({}),
 translation = new Translation({}),
@@ -34,7 +46,7 @@ j5 = new J5({});
 
 
 johnny5 = new Bot({
-  engines: [j5, translation, pivotal, boom_store, flickr, weather],
+  engines: [j5, translation, weather, tmdb, pivotal, boom_store, flickr],
   campfire: new Campfire({
     token: 'ea9f77add0b6ba0aa54e79d7c1111aabbf9aec01',
     account: "niuage",
@@ -50,8 +62,8 @@ bot = server.add_bot(johnny5);
 
 server.start();
 
-process.on('uncaughtException', function (err) {
-  system.puts('Caught exception: ' + err);
-// find a way to see if we're still listening to the rooms after the uncaught exception
-// server.start();
-});
+//process.on('uncaughtException', function (err) {
+//  system.puts('Caught exception: ' + err);
+//// find a way to see if we're still listening to the rooms after the uncaught exception
+//// server.start();
+//});

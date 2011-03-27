@@ -4,15 +4,19 @@ var Api = require("./api").Api
 var FlickrApi = Api.extend({
 
   init: function(opts) {
-    this._super(opts)
+    this._super(opts);
+
+    this.host = "api.flickr.com";
+    this.path = "/services/rest/";
   },
 
   search: function(params, callback) {
-    this.browser.get("/services/rest/?method=flickr.photos.getInfo&api_key=2bc972efba6309fe9376d55482ab32bb&secret=dfee6bcf0b5c41bb&format=json&photo_id=" + params[0], {
-      request: {
-        host: "api.flickr.com"
-      }
-    }, function(data) {
+    this.request("", {
+      method: "flickr.photos.getInfo",
+      api_key: this.key,
+      format: "json",
+      photo_id: params[0]
+    }, null, function(data) {
       var jsonFlickrApi = function(data) {
         var photo = data.photo;
         callback({
@@ -22,7 +26,6 @@ var FlickrApi = Api.extend({
       eval( "(" + data + ")" );
     })
   }
-
 });
 
 exports.FlickrApi = FlickrApi;

@@ -25,7 +25,6 @@ Bot.prototype.listen = function(room_id) {
       room.listen(function(message) {
         system.puts(":");
         if (message.user_id != self.id) {
-          system.puts(message.user_id + " != " + this.id);
           self.process_message(room, message);
         }
       });

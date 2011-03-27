@@ -17,12 +17,8 @@ var Weather = Engine.extend({
 
   bind: function(bot) {
     this._super(bot);
-    bot.on("/weather\\s+(.+)", function(message, matches, callback) {
+    bot.on("/w(?:eather)?(:\\w+)?\\s?(.*)", function(message, matches, callback) {
       this.weather.search(matches, callback);
-    });
-
-    bot.on("/codes\\s+(.+)", function(message, matches, callback) {
-      this.weather.location_codes(matches, callback);
     });
   }
 })

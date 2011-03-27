@@ -23,8 +23,8 @@ var Api = Class.extend({
     return this.querystring.parse(string);
   },
 
-  request: function(action, query, opts, response) {
-    opts = opts || {};
+  request: function(action, query, request_opts, response) {
+    var opts = request_opts || {};
     if (this.version)
       query.v = this.version;
     query = this.encode(query);

@@ -10,7 +10,7 @@ var Flickr = Engine.extend({
 
   init: function(opts) {
     this._super();
-    this.flickr = new FlickrApi();
+    this.flickr = new FlickrApi(opts.flickr_api);
   },
 
   bind: function(bot) {
