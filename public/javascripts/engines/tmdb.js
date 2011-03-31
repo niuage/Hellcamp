@@ -18,6 +18,12 @@ var Tmdb = Engine.extend({
     bot.on("/movie\\s(.*)", function(message, matches, callback) {
       this.tmdb.search(matches, callback);
     });
+  },
+
+  help: function() {
+    return [
+      ["/movie [movie title]", "Display the poster of the first movie, and links to the imdb page of the other results."]
+    ];
   }
 })
 

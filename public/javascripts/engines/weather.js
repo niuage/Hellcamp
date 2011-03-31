@@ -1,3 +1,5 @@
+// need to use YQL and yahoo api, this is crap
+
 var system   = require('sys');
 var Browser = require("../libs/browser").Browser;
 var Engine = require("./engine").Engine;
@@ -17,9 +19,16 @@ var Weather = Engine.extend({
 
   bind: function(bot) {
     this._super(bot);
-    bot.on("/w(?:eather)?(:\\w+)?\\s?(.*)", function(message, matches, callback) {
+    bot.on("/w(?:eather)?(:\\w+)?\\s(.*)", function(message, matches, callback) {
       this.weather.search(matches, callback);
     });
+  },
+
+  help: function() {
+    return [
+      ["/weather [location]|[code]", "Location: return a list of location codes. Code: return the current weather conditions in the location associated with the code."],
+      ["/weather[:X] [location]|[code]", "Return weather conditions X days from now. (0 < X < 6)"]
+    ];
   }
 })
 

@@ -1,3 +1,5 @@
+// need to use YQL and yahoo api, this is crap
+
 var system   = require('sys');
 var Api = require("./api").Api;
 var LibXml = require("libxmljs");

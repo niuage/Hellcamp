@@ -6,10 +6,9 @@ var Klass = require("../libs/class").Klass;
 var Api = Class.extend({
 
   init: function(opts) {
-    opts = opts || {};
     this.browser = new Browser();
     this.querystring = require("querystring");
-    if ((credentials = opts.credentials)) {
+    if (opts && (credentials = opts.credentials)) {
       this.key = credentials.key;
       this.secret = credentials.secret;
     }

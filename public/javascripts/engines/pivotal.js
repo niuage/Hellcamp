@@ -16,9 +16,15 @@ var Pivotal = Engine.extend({
 
   bind: function(bot) {
     this._super(bot);
-    bot.on("!(?:https?://www.pivotaltracker.com/story/show/)?(\\d+)", function(message, matches, callback) {
+    bot.on("(?:https?://www.pivotaltracker.com/story/show/|!)(\\d+)", function(message, matches, callback) {
       this.pivotal.search(matches, callback);
     });
+  },
+
+  help: function() {
+    return [
+      ["[Url of a PivotalTracker story]", "Post details about the story."]
+    ];
   }
 })
 

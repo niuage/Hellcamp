@@ -38,7 +38,7 @@ var GoogleApi = Api.extend({
     system.puts("translate");
     var p = {
       from: "",
-      to: "fr",
+      to: "en",
       query: params[0]
     }
     if (params.length == 2) {

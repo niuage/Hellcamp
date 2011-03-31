@@ -1,6 +1,11 @@
 var system   = require('sys');
 var Browser = require("../libs/browser").Browser;
 
+var sig = global.Signal = {
+  STOP: 0,
+  CONTINUE: 1
+};
+
 var Bot = function(options) {
   this.campfire = options.campfire;
   this.rooms = options.rooms;
@@ -14,7 +19,9 @@ var Bot = function(options) {
 
 Bot.prototype.process_message = function(room, message) {
   for(engine in this.engines) { 
-    this.engines[engine].process(room, message);
+    if (this.engines[engine].process(room, message) === sig.STOP) {
+      return;
+    }
   }
 }
 

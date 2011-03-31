@@ -49,6 +49,14 @@ var J5 = Engine.extend({
         body: env[matches[0]] ? env[matches[0]].url : "Unknown environment"
       });
     });
+  },
+
+  help: function() {
+    return [
+    ["/search [query]", "Search images on Google Images."],
+    ["/youtube [query]", "Search Youtube videos"],
+    ["/say [sentence]", "Make Johnny say something."]
+    ];
   }
 
 });

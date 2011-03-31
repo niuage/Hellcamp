@@ -16,7 +16,8 @@ var Browser = Class.extend({
     protocol = ssl ? https : http,
     headers = {
       'Host'          : req.host,
-      'Content-Type'  : 'application/html'
+      'Content-Type'  : 'application/html',
+      'User-Agent'    : req.user_agent || "JohnnyFive/1.5"
     };
     for (header in opts.headers) {
       system.puts(header);

@@ -18,6 +18,12 @@ var Flickr = Engine.extend({
     bot.on("flickr.com/photos/(?:.*)/(\\d+)", function(message, matches, callback) {
       this.flickr.search(matches, callback);
     });
+  },
+
+  help: function() {
+    return [
+      ["[url of a flickr photo]", "Post the photo in Campfire."]
+    ];
   }
 })
 

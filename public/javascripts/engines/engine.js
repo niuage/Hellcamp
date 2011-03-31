@@ -11,6 +11,7 @@ var Engine = Class.extend({
   init: function(opts) {
     this.events = {};
     this.init_events();
+    this.black_list_message = "You've just been Rebecca Blacked.";
   },
 
   process: function(room, message) {
@@ -33,10 +34,12 @@ var Engine = Class.extend({
     for (event in this.events) {
       if ((match = message.body.match(new RegExp(event)))) {
         system.puts("found in " + this.info.name);
+        //        if (this.black_listed(message.body, callback)) return;
         match.shift();
         this.events[event].apply(this, [message, match, function(response) {
           if (response) {
-            callback(response)
+            //            if (self.black_listed(response.body, callback)) return;
+            callback(response);
           }
         }]);
       }
@@ -79,6 +82,13 @@ var Engine = Class.extend({
 
   bind: function(bot) {
     system.puts("bind events for " + this.info.name);
+    var self = this;
+    bot.on("^/help", function(message, matches, callback) {
+      callback({
+        body: this.formated_help(),
+        type: "PasteMessage"
+      })
+    })
   },
 
   bot: function(bot) {
@@ -88,6 +98,36 @@ var Engine = Class.extend({
     }
     else
       return this.bot;
+  },
+
+  black_listed: function(item, callback) {
+    if (!item) return false;
+    var list = [
+    ".*reb*ec*a.*b*la*c*k.*"
+    ]
+    for (i in list) {
+      if (item.match(new RegExp(list[i]))) {
+        callback({
+          body: this.black_list_message
+        })
+        return true;
+      }
+    }
+    return false;
+  },
+
+  help: function() {
+    return [["N/A", "N/A"]]
+  },
+
+  formated_help: function() {
+    var commands = ["Bot: " + this.info.name];
+    var help = this.help();
+    for (c in help) {
+      var command = help[c];
+      commands.push(command.join(": "))
+    }
+    return commands.join("\n")
   }
 })
 
