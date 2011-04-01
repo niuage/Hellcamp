@@ -189,12 +189,15 @@ Campfire.Room.prototype.sound = function(text, callback) {
 },
 
 Campfire.Room.prototype.message = function(text, type, callback) {
+  var self = this;
   this.post('/speak', {
     message : {
       body : text,
       type : type || "TextMessage"
     }
-  }, callback);
+  }, function(data) {
+    callback.apply(self, [data]);
+  });
 };
 
 Campfire.Room.prototype.lock = function(callback) {

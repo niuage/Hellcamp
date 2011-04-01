@@ -10,7 +10,8 @@ BoomStore = require("./engines/boom_store").BoomStore,
 Translation = require("./engines/translation").Translation,
 Tmdb = require("./engines/tmdb").Tmdb,
 Wiki = require("./engines/wiki").Wiki,
-Bitly = require("./engines/bitly").Bitly;
+Bitly = require("./engines/bitly").Bitly,
+Shout = require("./engines/shout").Shout;
 
 var server = new Server({
   port: 3002,
@@ -48,7 +49,8 @@ bitly = new Bitly({
       secret: "niuage2"
     }
   }
-})
+}),
+shout = new Shout({}),
 pivotal = new Pivotal({}),
 boom_store = new BoomStore({}),
 translation = new Translation({}),
@@ -58,16 +60,16 @@ j5 = new J5({});
 
 // BOT
 johnny5 = new Bot({
-  engines: [j5, translation, weather, wiki, tmdb, bitly, pivotal, boom_store, flickr],
+  engines: [j5, translation, weather, shout, wiki, tmdb, bitly, pivotal, boom_store, flickr],
   campfire: new Campfire({
-    //        token: 'ea9f77add0b6ba0aa54e79d7c1111aabbf9aec01',
-    //        account: "niuage",
-    token   : '7f3e8b9c4caff6db3ac20d7afe93c88c59e17736',
-    account : 'challengepost',
+    token: 'ea9f77add0b6ba0aa54e79d7c1111aabbf9aec01',
+    account: "niuage",
+    //    token   : '7f3e8b9c4caff6db3ac20d7afe93c88c59e17736',
+    //    account : 'challengepost',
     ssl: true
   }),
-  rooms: [348877, 360348, 273935, 357538]
-  //  rooms: [169602]
+  //  rooms: [348877, 360348, 273935, 357538]
+  rooms: [169602, 392773, 392800]
 });
 
 bot = server.add_bot(johnny5);

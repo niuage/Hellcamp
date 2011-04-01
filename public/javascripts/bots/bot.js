@@ -9,6 +9,7 @@ var sig = global.Signal = {
 var Bot = function(options) {
   this.campfire = options.campfire;
   this.rooms = options.rooms;
+  this.campfire_rooms = [];
   this.events = {};
   this.engines = options.engines;
   this.me(function(id) {
@@ -29,6 +30,7 @@ Bot.prototype.listen = function(room_id) {
   var self = this;
   this.campfire.room(room_id, function(room) {
     room.join(function() {
+      self.campfire_rooms.push(room);
       room.listen(function(message) {
         system.puts(":");
         if (message.user_id != self.id) {

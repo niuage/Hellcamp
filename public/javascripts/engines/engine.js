@@ -36,21 +36,18 @@ var Engine = Class.extend({
         system.puts("found in " + this.info.name);
         //        if (this.black_listed(message.body, callback)) return;
         match.shift();
-        this.events[event].apply(this, [message, match, function(response) {
-          if (response) {
-            //            if (self.black_listed(response.body, callback)) return;
-            callback(response);
-          }
-        }]);
+        this.events[event].apply(this, [message, match, callback]);
       }
     }
   },
 
   text_message: function(room, message) {
     this.trigger(room, message, function(response) {
-      room.message(response.body, response.type, function(data) {
-        system.puts(JSON.stringify(data));
-      });
+      if (response) {
+        room.message(response.body, response.type, function(data) {
+          system.puts(JSON.stringify(data));
+        });
+      }
     })
   },
 
