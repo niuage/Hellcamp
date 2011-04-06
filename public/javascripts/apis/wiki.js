@@ -13,7 +13,7 @@ var WikiApi = Api.extend({
   // http://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=six%20feet%20under&srprop=snippet&format=json
 
   search: function(params, callback) {
-    this.request("", this.merge(this.options, {
+    this.get("", this.merge(this.options, {
       list: "search",
       srsearch:params[0],
       srprop:"snippet"

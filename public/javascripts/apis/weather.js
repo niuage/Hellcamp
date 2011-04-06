@@ -62,7 +62,7 @@ var WeatherApi = Api.extend({
   conditions: function(command, options, summary, callback) {
     var self = this;
     command.params = command.params || this.location;
-    this.request(this.template("weather/local/<%location%>", {
+    this.get(this.template("weather/local/<%location%>", {
       location: command.params
     }), this.options(options),
       null,
@@ -152,7 +152,7 @@ var WeatherApi = Api.extend({
 
   location_codes: function(location, callback) {
     var self = this;
-    this.request("search/search", this.options({
+    this.get("search/search", this.options({
       where: location
     }),
     null,

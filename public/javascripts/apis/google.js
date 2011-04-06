@@ -14,7 +14,7 @@ var GoogleApi = Api.extend({
 
   search: function(params, callback) {
 
-    this.request("search/images", {
+    this.get("search/images", {
       q: params[0]
     },
     { ssl: true },
@@ -54,7 +54,7 @@ var GoogleApi = Api.extend({
         }
       }
     }
-    this.request("language/translate", {
+    this.get("language/translate", {
       q: p.query,
       langpair: p.from + "|" + p.to,
       format: "text"

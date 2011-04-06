@@ -12,7 +12,7 @@ var PivotalApi = Api.extend({
 
   search: function(params, callback) {
     //  system.puts("get_story");
-    //  this.request("POST", "/services/v3/projects/80286/stories/" + params[0].toString(), "", {
+    //  this.get("POST", "/services/v3/projects/80286/stories/" + params[0].toString(), "", {
     //    request: {
     //      host: "pivotaltracker.com"
     //    },

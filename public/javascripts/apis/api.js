@@ -22,19 +22,26 @@ var Api = Class.extend({
     return this.querystring.parse(string);
   },
 
-  request: function(action, query, request_opts, response) {
+  post: function(action, query, body, request_opts, response) {
+    this.request("POST", action, query, body, request_opts, response);
+  },
+
+  get: function(action, query, request_opts, response) {
+    this.request("GET", action, query, null, request_opts, response);
+  },
+
+  request: function(method, action, query, body, request_opts, response) {
     var opts = request_opts || {};
     if (this.version)
       query.v = this.version;
-    query = this.encode(query);
-    system.puts(this.path + action + "?" + query);
-    var request = this.browser.get(this.path + action + "?" + query, {
+    var options = {
       request: {
         host: opts.host || this.host
       },
-      ssl: opts.ssl || false
-    }, response);
-
+      ssl: opts.ssl
+    };
+    var path = this.path + action + "?" + this.encode(query);
+    var request = (method == "GET") ? this.browser.get(path, options, response) : this.browser.post(path, body, options, response);
     if (request) request.end();
   },
 

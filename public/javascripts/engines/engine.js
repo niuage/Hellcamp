@@ -11,7 +11,7 @@ var Engine = Class.extend({
   init: function(opts) {
     this.events = {};
     this.init_events();
-    this.black_list_message = "You've just been Rebecca Blacked.";
+    this.black_list_message = "You've just been Rebecca Black Listed.";
   },
 
   process: function(room, message) {
@@ -79,7 +79,6 @@ var Engine = Class.extend({
 
   bind: function(bot) {
     system.puts("bind events for " + this.info.name);
-    var self = this;
     bot.on("^/help", function(message, matches, callback) {
       callback({
         body: this.formated_help(),
@@ -100,7 +99,8 @@ var Engine = Class.extend({
   black_listed: function(item, callback) {
     if (!item) return false;
     var list = [
-    ".*reb*ec*a.*b*la*c*k.*"
+    ".*reb*ec*a.*b*la*c*k.*",
+    "friday"
     ]
     for (i in list) {
       if (item.match(new RegExp(list[i]))) {
@@ -114,7 +114,7 @@ var Engine = Class.extend({
   },
 
   help: function() {
-    return [["N/A", "N/A"]]
+    return [["Command", "Description"]]
   },
 
   formated_help: function() {

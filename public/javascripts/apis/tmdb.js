@@ -23,7 +23,7 @@ var TmdbApi = Api.extend({
       key: this.key,
       params: this.querystring.escape(movie)
     })
-    this.request(action, "", null, function(data) {
+    this.get(action, "", null, function(data) {
       var movies = JSON.parse(data);
 
       if (self.found_movies(movies, callback)) {

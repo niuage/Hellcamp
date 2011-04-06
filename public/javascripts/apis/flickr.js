@@ -11,7 +11,7 @@ var FlickrApi = Api.extend({
   },
 
   search: function(params, callback) {
-    this.request("", {
+    this.get("", {
       method: "flickr.photos.getInfo",
       api_key: this.key,
       format: "json",

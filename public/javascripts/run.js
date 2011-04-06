@@ -12,6 +12,9 @@ Tmdb = require("./engines/tmdb").Tmdb,
 Wiki = require("./engines/wiki").Wiki,
 Bitly = require("./engines/bitly").Bitly,
 Shout = require("./engines/shout").Shout;
+Dribbble = require("./engines/dribbble").Dribbble;
+Wolfram = require("./engines/wolfram").Wolfram;
+//Backpack = require("./engines/backpack").Backpack;
 
 var server = new Server({
   port: 3002,
@@ -50,7 +53,24 @@ bitly = new Bitly({
     }
   }
 }),
+wolfram = new Wolfram({
+  wolfram_api: {
+    credentials: {
+      key: "T58EKE-35TP7JWUQY",
+      secret: "Johnny5"
+    }
+  }
+}),
+//backpack = new Backpack({
+//  api: {
+//    credentials: {
+//      key: "23fe7819f4e5f60dabc04e4d236cf275d5edcdb4",
+//      secret: "challengepost"
+//    }
+//  }
+//}),
 shout = new Shout({}),
+dribbble = new Dribbble({}),
 pivotal = new Pivotal({}),
 boom_store = new BoomStore({}),
 translation = new Translation({}),
@@ -60,7 +80,7 @@ j5 = new J5({});
 
 // BOT
 johnny5 = new Bot({
-  engines: [j5, translation, weather, shout, wiki, tmdb, bitly, pivotal, boom_store, flickr],
+  engines: [j5, wolfram, translation, weather, dribbble, shout, wiki, tmdb, bitly, pivotal, boom_store, flickr],
   campfire: new Campfire({
     token: 'ea9f77add0b6ba0aa54e79d7c1111aabbf9aec01',
     account: "niuage",
@@ -75,9 +95,15 @@ johnny5 = new Bot({
 bot = server.add_bot(johnny5);
 server.start();
 
-//process.on('uncaughtException', function (err) {
-//  system.puts('Caught exception: ' + err);
-//
-//// check if we're still listening to the rooms after the uncaught exception
-//// server.start();
-//});
+//parser = require('optimist');
+//argv = parser(["-b", "'allalalala ffw fwfew'", 'lalal', '--bold=false']).argv
+//system.puts(system.inspect(argv));
+//argv = parser(['-b', '2' ,'-z','dizzle']).argv
+//system.puts(system.inspect(argv));
+
+process.on('uncaughtException', function (err) {
+  system.puts('Caught exception: ' + err);
+
+// check if we're still listening to the rooms after the uncaught exception
+// server.start();
+});

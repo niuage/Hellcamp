@@ -16,7 +16,7 @@ var Browser = Class.extend({
     protocol = ssl ? https : http,
     headers = {
       'Host'          : req.host,
-      'Content-Type'  : 'application/html',
+      'Content-Type'  : req.content_type || 'application/html',
       'User-Agent'    : req.user_agent || "JohnnyFive/1.5"
     };
     for (header in opts.headers) {
@@ -48,8 +48,9 @@ var Browser = Class.extend({
           data += chunk;
         });
         response.on('end', function() {
-          system.puts("end")
+          system.puts("end-before");
           callback(data);
+          system.puts("end-after");
         });
       }
     });

@@ -11,7 +11,7 @@ var BitlyApi = Api.extend({
   },
 
   shorten: function(params, callback) {
-    this.request("shorten", this.merge(this.options(), {
+    this.get("shorten", this.merge(this.options(), {
       longUrl: params[0]
     }), null, function(data) {
       data = JSON.parse(data);
