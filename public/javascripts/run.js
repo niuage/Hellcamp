@@ -1,7 +1,11 @@
 var system   = require('sys'),
+
 Server = require("./servers/server").Server,
+
 Bot = require('./bots/bot').Bot,
+
 Campfire = require("./libs/campfire").Campfire,
+
 J5 = require("./engines/j5").J5,
 Pivotal = require("./engines/pivotal").Pivotal,
 Weather = require("./engines/weather").Weather,
@@ -14,10 +18,11 @@ Bitly = require("./engines/bitly").Bitly,
 Shout = require("./engines/shout").Shout;
 Dribbble = require("./engines/dribbble").Dribbble;
 Wolfram = require("./engines/wolfram").Wolfram;
+Github = require("./engines/github").Github;
 //Backpack = require("./engines/backpack").Backpack;
 
 var server = new Server({
-  port: 3002,
+  port: 3003,
   host: 'localhost'
 });
 
@@ -61,6 +66,14 @@ wolfram = new Wolfram({
     }
   }
 }),
+github = new Github({
+  github_api: {
+    credentials: {
+      key: "9f9301887a2846ad42c2ad751cff15aa",
+      secret: "niuage"
+    }
+  }
+}),
 //backpack = new Backpack({
 //  api: {
 //    credentials: {
@@ -80,7 +93,7 @@ j5 = new J5({});
 
 // BOT
 johnny5 = new Bot({
-  engines: [j5, wolfram, translation, weather, dribbble, shout, wiki, tmdb, bitly, pivotal, boom_store, flickr],
+  engines: [j5, wolfram, github, translation, weather, dribbble, shout, wiki, tmdb, bitly, pivotal, boom_store, flickr],
   campfire: new Campfire({
     token: 'ea9f77add0b6ba0aa54e79d7c1111aabbf9aec01',
     account: "niuage",
@@ -101,9 +114,9 @@ server.start();
 //argv = parser(['-b', '2' ,'-z','dizzle']).argv
 //system.puts(system.inspect(argv));
 
-process.on('uncaughtException', function (err) {
-  system.puts('Caught exception: ' + err);
-
-// check if we're still listening to the rooms after the uncaught exception
-// server.start();
-});
+//process.on('uncaughtException', function (err) {
+//  system.puts('Caught exception: ' + err);
+//
+//// check if we're still listening to the rooms after the uncaught exception
+//// server.start();
+//});

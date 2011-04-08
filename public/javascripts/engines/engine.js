@@ -60,6 +60,7 @@ var Engine = Class.extend({
     this.bot.campfire.user(message.user_id, function(data) {
       system.puts(data.user.name + " pasted a message in " + room.name + ": " + message.body);
     });
+    return global.Signal.STOP;
   },
   enter_message: function(room, message) {
     system.puts(this.info.name)

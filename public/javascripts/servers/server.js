@@ -16,7 +16,18 @@ var Server = function(options) {
   this.socket  = io.listen(this.app);
   
   this.app.listen(this.port, this.host);
-  console.log("Express server listening on port %d", this.app.address().port)
+  console.log("Express server listening on port %d", this.app.address().port);
+
+  this.configure();
+}
+
+Server.prototype.configure = function() {
+  var yml=require('fs')
+  .readFileSync('config/config.yml')
+  .toString('utf-8');
+  system.puts(yml);
+  global.config = require('yaml').eval(yml);
+  system.puts(system.inspect(global.config));
 }
 
 Server.prototype.add_bot = function(bot) {
@@ -25,6 +36,7 @@ Server.prototype.add_bot = function(bot) {
 }
 
 Server.prototype.start = function() {
+  system.puts(this.app.settings.env);
   for(i = 0; i < this.bots.length; i++) {
     this.bots[i].start();
   }
