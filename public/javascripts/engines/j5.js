@@ -3,23 +3,24 @@ var exec = require('child_process').exec;
 var GoogleApi = require("../apis/google").GoogleApi;
 var YoutubeApi = require("../apis/youtube").YoutubeApi;
 var Engine = require("./engine").Engine;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var J5 = Engine.extend({
+var J5 = Class.create(Engine, {
   info: {
     name: "J5",
     version: 1
   },
 
-  init: function(opts) {
-    this._super();
+  initialize: function($super, opts) {
+    $super(opts);
     this.google = new GoogleApi();
     this.youtube = new YoutubeApi();
   },
 
   bind: function(bot) {
-    this._super(bot);
-
     bot.on("/search\\s(.+)", function(message, matches, callback) {
+      system.puts("seartch");
       this.google.search(matches, callback);
     });
 

@@ -1,14 +1,14 @@
 var system   = require('sys');
-var Klass = require("../libs/class").Klass;
-(new Klass()).define();
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var Engine = Class.extend({
+var Engine = Class.create({
   info: {
     name: "Default",
     version: 1
   },
 
-  init: function(opts) {
+  initialize: function(opts) {
     this.events = {};
     this.init_events();
     this.black_list_message = "You've just been Rebecca Black Listed.";
@@ -55,6 +55,7 @@ var Engine = Class.extend({
     this.bot.campfire.user(message.user_id, function(data) {
       system.puts(data.user.name + " has been kicked from the " + room.name + " room");
     });
+    return global.Signal.STOP;
   },
   paste_message: function(room, message) {
     this.bot.campfire.user(message.user_id, function(data) {
@@ -67,6 +68,7 @@ var Engine = Class.extend({
     this.bot.campfire.user(message.user_id, function(data) {
       system.puts(data.user.name + " entered the " + room.name + " room");
     });
+    return global.Signal.STOP;
   },
 
   init_events: function() {
@@ -88,7 +90,7 @@ var Engine = Class.extend({
     })
   },
 
-  bot: function(bot) {
+  set_bot: function(bot) {
     if (bot) {
       this.bot = bot;
       return null;
