@@ -10,7 +10,17 @@ development:
           account: niuage
         request:
           ssl: 1
-        rooms: "169602 392773 392800"
+        rooms:
+          - room: 169602
+          - room: 392773
+          - room: 392800
+        engines:
+          - engine: flickr
+          - engine: weather
+          - engine: tmdb
+          - engine: bitly
+          - engine: wolfram
+          - engine: github
     niuage:
       campfire:
         credentials:
@@ -18,8 +28,20 @@ development:
           account: challengepost
         request:
           ssl: 1
-        rooms: "348877 360348 273935 357538"
+        rooms:
+          - room: 348877
+          - room: 360348
+          - room: 273935
+          - room: 357538
+        engines:
+          - engine: flickr
+          - engine: weather
+          - engine: tmdb
+          - engine: bitly
+          - engine: wolfram
+          - engine: github
   engines:
+    J5:
     flickr:
       api:
         key: "2bc972efba6309fe9376d55482ab32bb"

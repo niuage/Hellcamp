@@ -9,7 +9,10 @@ var Server = Class.create({
     this.init(options);
     this.create_app();
     this.create_redis_client();
-    this.listen();
+    this.open_socket();
+    this.set_config();
+
+    this.create_engines();
   },
 
   /****************************/
@@ -31,14 +34,9 @@ var Server = Class.create({
     this.client = redis.createClient();
   },
 
-  listen: function() {
+  open_socket: function() {
     const io = require('socket.io');
     this.socket = io.listen(this.app);
-  },
-
-  add_bot: function(bot) {
-    this.bots.push(bot);
-    return bot;
   },
 
   create_app: function() {
@@ -55,6 +53,40 @@ var Server = Class.create({
     this.bots.each(function(bot) {
       bot.start();
     });
+  },
+
+  add_bot: function(bot) {
+    this.bots.push(bot);
+    return bot;
+  },
+
+  set_config: function() {
+    this.config = global.config = require('yaml').eval(
+      require('fs')
+      .readFileSync('../config/config.yml') // might be a problem
+      .toString('utf-8')
+      )[this.app.settings.env];
+  },
+
+  create_engines: function() {
+
+    var J5 = require("./engines/j5").J5;
+    //Pivotal = require("./engines/pivotal").Pivotal,
+    //Weather = require("./engines/weather").Weather,
+    //Flickr = require("./engines/flickr").Flickr,
+    //BoomStore = require("./engines/boom_store").BoomStore,
+    //Translation = require("./engines/translation").Translation,
+    //Tmdb = require("./engines/tmdb").Tmdb,
+    //Wiki = require("./engines/wiki").Wiki,
+    //Bitly = require("./engines/bitly").Bitly,
+    //Shout = require("./engines/shout").Shout;
+    //Dribbble = require("./engines/dribbble").Dribbble;
+    //Wolfram = require("./engines/wolfram").Wolfram;
+    //Github = require("./engines/github").Github;
+
+    this.engines = {
+      J5: new J5(this.config.engines.J5)
+    }
   }
 });
 
