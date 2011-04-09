@@ -4,6 +4,7 @@ var https  = require('https');
 var encode = require('./base64').encode;
 
 var Campfire = function(options) {
+  system.puts(system.inspect(options))
   this.ssl           = options.ssl;
   this.http          = this.ssl ? https : http;
   this.port          = this.ssl ? 443 : 80;

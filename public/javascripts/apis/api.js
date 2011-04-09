@@ -1,11 +1,11 @@
 var system   = require('sys');
-var Browser = require("../libs/browser").Browser
-var Klass = require("../libs/class").Klass;
-(new Klass()).define();
+var Browser = require("../libs/browser").Browser;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var Api = Class.extend({
+var Api = Class.create({
 
-  init: function(opts) {
+  initialize: function(opts) {
     this.browser = new Browser();
     this.querystring = require("querystring");
     if (opts && (credentials = opts.credentials)) {

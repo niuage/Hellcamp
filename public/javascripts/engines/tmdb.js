@@ -1,20 +1,22 @@
 var system   = require('sys');
 var Engine = require("./engine").Engine;
 var TmdbApi = require("../apis/tmdb").TmdbApi;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var Tmdb = Engine.extend({
+var Tmdb = Class.create(Engine, {
   info: {
     name: "Tmdb",
     version: 1
   },
 
-  init: function(opts) {
-    this._super();
+  initialize: function($super, opts) {
+    $super();
     this.tmdb = new TmdbApi(opts.tmdb_api);
   },
 
-  bind: function(bot) {
-    this._super(bot);
+  bind: function($super, bot) {
+    $super(bot);
     bot.on("/movie\\s(.*)", function(message, matches, callback) {
       this.tmdb.search(matches, callback);
     });

@@ -2,11 +2,13 @@ var system   = require('sys');
 var Api = require("./api").Api;
 // https://github.com/niuage/node-github
 var Github = require("github").GitHubApi;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var GithubApi = Api.extend({
+var GithubApi = Class.create(Api, {
 
-  init: function(opts) {
-    this._super(opts);
+  initialize: function($super, opts) {
+    $super(opts);
     this.github = new Github(true);
   },
 

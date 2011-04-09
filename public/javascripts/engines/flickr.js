@@ -1,20 +1,22 @@
 var system   = require('sys');
 var Engine = require("./engine").Engine;
 var FlickrApi = require("../apis/flickr").FlickrApi;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var Flickr = Engine.extend({
+var Flickr = Class.create(Engine, {
   info: {
     name: "Flickr",
     version: 1
   },
 
-  init: function(opts) {
-    this._super();
-    this.flickr = new FlickrApi(opts.flickr_api);
+  initialize: function($super, opts) {
+    $super();
+    this.flickr = new FlickrApi(opts.api);
   },
 
-  bind: function(bot) {
-    this._super(bot);
+  bind: function($super, bot) {
+    $super(bot);
     bot.on("flickr.com/photos/(?:.*)/(\\d+)", function(message, matches, callback) {
       this.flickr.search(matches, callback);
     });

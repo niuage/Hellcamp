@@ -1,10 +1,12 @@
 var system   = require('sys');
-var Api = require("./api").Api
+var Api = require("./api").Api;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var TmdbApi = Api.extend({
+var TmdbApi = Class.create(Api, {
 
-  init: function(opts) {
-    this._super(opts);
+  initialize: function($super, opts) {
+    $super(opts);
 
     this.host = "api.themoviedb.org";
     this.path = "/2.1/";

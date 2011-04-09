@@ -8,7 +8,10 @@ var sig = global.Signal = {
 };
 
 var Bot = C.$Class.create({
-  initialize: function(options) {
+  initialize: function(name, options) {
+    system.puts("lala");
+    system.puts(system.inspect(name))
+    this.name = name;
     this.campfire = options.campfire;
     this.rooms = options.rooms;
     this.campfire_rooms = [];
@@ -19,6 +22,7 @@ var Bot = C.$Class.create({
     });
     this.init_engines();
   },
+  
   process_message: function(room, message) {
     for(engine in this.engines) {
       if (this.engines[engine].process(room, message) === sig.STOP) {

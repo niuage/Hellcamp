@@ -1,19 +1,27 @@
-// need to use YQL and yahoo api, this is crap
+  // need to use YQL and yahoo api, this is crap
 
 var system   = require('sys');
 var Api = require("./api").Api;
 var LibXml = require("libxmljs");
+var C = require("../libs/common").Common;
+var Class = C.$Class;
+var Hash = C.$Hash.from;
 
-var WeatherApi = Api.extend({
+var WeatherApi = Class.create(Api, {
 
-  init: function(opts) {
-    opts = opts || {}
-    this._super(opts);
+  initialize: function($super, opts) {
+    opts = Hash({
+      version: "1.0",
+      host: "xoap.weather.com",
+      path: "/",
+      default_location: "10014"
+    }).merge(opts || {}).toObject();
+    $super(opts);
 
-    this.version  = "1.0";
-    this.host     = opts.host ||    "xoap.weather.com";
-    this.path     = opts.path ||    "/";
-    this.location = opts.default_location || "10014";
+    this.version  = opts.version;
+    this.host     = opts.host;
+    this.path     = opts.path;
+    this.location = opts.default_location;
 
     this.parser = LibXml;
   },

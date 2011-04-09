@@ -1,11 +1,13 @@
 var system   = require('sys');
 var Api = require("./api").Api;
 var LibXml = require("libxmljs");
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var WolframApi = Api.extend({
+var WolframApi = Class.create(Api, {
 
-  init: function(opts) {
-    this._super(opts);
+  initialize: function($super, opts) {
+    $super(opts);
 
     this.host = "api.wolframalpha.com";
     this.path = "/v2/";

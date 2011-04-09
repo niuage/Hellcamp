@@ -1,67 +1,69 @@
 development:
-  challengepost_server:
+  server:
     port: 3002
     host: localhost
   bots:
-    johnny5:
+    - johnny5:
       campfire:
-        credentials:
+        config:
           token: "ea9f77add0b6ba0aa54e79d7c1111aabbf9aec01"
           account: niuage
-        request:
           ssl: 1
         rooms:
-          - room: 169602
-          - room: 392773
-          - room: 392800
-        engines:
-          - engine: flickr
-          - engine: weather
-          - engine: tmdb
-          - engine: bitly
-          - engine: wolfram
-          - engine: github
-    niuage:
+          - id: 169602
+          - id: 392773
+          - id: 392800
+      engines:
+        - name: J5
+        - name: Flickr
+        - name: Weather
+        - name: Tmdb
+        - name: Bitly
+        - name: Wolfram
+        - name: Github
+    - niuage:
       campfire:
-        credentials:
+        config:
           token: "7f3e8b9c4caff6db3ac20d7afe93c88c59e17736"
           account: challengepost
-        request:
           ssl: 1
         rooms:
-          - room: 348877
-          - room: 360348
-          - room: 273935
-          - room: 357538
-        engines:
-          - engine: flickr
-          - engine: weather
-          - engine: tmdb
-          - engine: bitly
-          - engine: wolfram
-          - engine: github
+          - id: 348877
+          - id: 360348
+          - id: 273935
+          - id: 357538
+      engines:
+        - name: J5
+        - name: Flickr
+        - name: Weather
+        - name: Tmdb
+        - name: Bitly
+        - name: Wolfram
+        - name: Github
   engines:
-    J5:
-    flickr:
+    - J5:
+      api:
+        key: ""
+    - Flickr:
       api:
         key: "2bc972efba6309fe9376d55482ab32bb"
-    weather:
+    - Weather:
       api:
-        key: c5289d5b3b5fd943
+        key: "c5289d5b3b5fd943"
         secret: 1245671229
       default_location: 10014
-    tmdb:
+    - Tmdb:
       api:
         key: "0feeb53d4f29c916ce155789b1cfda00"
-    bitly:
+    - Bitly:
       api:
         key: "R_c5731eaf90d0abfbda2c226e356a70c7"
         secret: niuage2
-    wolfram:
+    - Wolfram:
       api:
         key: "T58EKE-35TP7JWUQY"
         secret: Johnny5
-    github:
+    - Github:
       api:
         key: "9f9301887a2846ad42c2ad751cff15aa"
         secret: niuage

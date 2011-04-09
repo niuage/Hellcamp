@@ -1,11 +1,13 @@
 var system   = require('sys');
-var Api = require("./api").Api
+var Api = require("./api").Api;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var GoogleApi = Api.extend({
+var GoogleApi = Class.create(Api, {
 
-  init: function(opts) {
+  initialize: function($super, opts) {
     opts = opts || {};
-    this._super(opts);
+    $super(opts);
     
     this.version  = "1.0";
     this.host     = opts.host ||    "ajax.googleapis.com";

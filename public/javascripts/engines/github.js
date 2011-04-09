@@ -1,21 +1,23 @@
 var system   = require('sys');
 var Engine = require("./engine").Engine;
 var GithubApi = require("../apis/github").GithubApi;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var Github = Engine.extend({
+var Github = Class.create(Engine, {
   info: {
     name: "Github",
     version: 1
   },
 
-  init: function(opts) {
-    this._super();
+  initialize: function($super, opts) {
+    $super();
     this.github = new GithubApi(opts.github_api);
     this.parser = require('../libs/argv');
   },
 
-  bind: function(bot) {
-    this._super(bot);
+  bind: function($super, bot) {
+    $super(bot);
     bot.on("/log\\s?(.*)", function(message, matches, callback) {
       matches = this.parser(matches[0].split(" ")).usage("/log -u [user] -r [repo] -b [branch] -p [page]").demand(["r"]);
       this.github.get_branch_commits(matches, callback);

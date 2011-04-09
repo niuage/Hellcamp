@@ -1,10 +1,12 @@
 var system   = require('sys');
-var Api = require("./api").Api
+var Api = require("./api").Api;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var BitlyApi = Api.extend({
+var BitlyApi = Class.create(Api, {
 
-  init: function(opts) {
-    this._super(opts);
+  initialize: function($super, opts) {
+    $super(opts);
 
     this.host = "api.bitly.com";
     this.path = "/v3/";

@@ -1,20 +1,22 @@
 var system   = require('sys');
 var Engine = require("./engine").Engine;
 var BitlyApi = require("../apis/bitly").BitlyApi;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var Bitly = Engine.extend({
+var Bitly = Class.create(Engine, {
   info: {
     name: "Bitly",
     version: 1
   },
 
-  init: function(opts) {
-    this._super();
+  initialize: function($super, opts) {
+    $super();
     this.bitly = new BitlyApi(opts.bitly_api);
   },
 
-  bind: function(bot) {
-    this._super(bot);
+  bind: function($super, bot) {
+    $super(bot);
     bot.on("!([^\\s]*)", function(message, matches, callback) {
       if (this.is_valid(matches[0])) {
         this.bitly.shorten(matches, callback);

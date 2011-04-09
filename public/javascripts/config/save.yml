@@ -1,0 +1,62 @@
+    - johnny5:
+       campfire:
+         credentials:
+           token: "ea9f77add0b6ba0aa54e79d7c1111aabbf9aec01"
+           account: niuage
+         request:
+           ssl: 1
+         rooms:
+           - room: 169602
+           - room: 392773
+           - room: 392800
+         engines:
+           - engine: flickr
+           - engine: weather
+           - engine: tmdb
+           - engine: bitly
+           - engine: wolfram
+           - engine: github
+    - niuage:
+       campfire:
+         credentials:
+           token: "7f3e8b9c4caff6db3ac20d7afe93c88c59e17736"
+           account: challengepost
+         request:
+           ssl: 1
+         rooms:
+           - room: 348877
+           - room: 360348
+           - room: 273935
+           - room: 357538
+         engines:
+           - engine: flickr
+           - engine: weather
+           - engine: tmdb
+           - engine: bitly
+           - engine: wolfram
+           - engine: github
+
+
+
+
+
+               - weather:
+       api:
+         key: c5289d5b3b5fd943
+         secret: 1245671229
+       default_location: 10014
+    - tmdb:
+       api:
+         key: "0feeb53d4f29c916ce155789b1cfda00"
+    - bitly:
+       api:
+         key: "R_c5731eaf90d0abfbda2c226e356a70c7"
+         secret: niuage2
+    - wolfram:
+       api:
+         key: "T58EKE-35TP7JWUQY"
+         secret: Johnny5
+    - github:
+       api:
+         key: "9f9301887a2846ad42c2ad751cff15aa"
+         secret: niuage
