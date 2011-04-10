@@ -232,7 +232,7 @@ var Class = (function() {
   }
 
 
-  function isHash(object) {
+  function is$H(object) {
     return object instanceof Hash;
   }
 
@@ -1110,12 +1110,12 @@ Array.from = $A;
   if (!arrayProto.lastIndexOf) arrayProto.lastIndexOf = lastIndexOf;
 })();
 function $H(object) {
-  return new Hash(object);
+  return new $H(object);
 };
 
 var Hash = Class.create(Enumerable, (function() {
   function initialize(object) {
-    this._object = Object.isHash(object) ? object.toObject() : Object.clone(object);
+    this._object = Object.is$H(object) ? object.toObject() : Object.clone(object);
   }
 
 
@@ -1167,7 +1167,7 @@ var Hash = Class.create(Enumerable, (function() {
   }
 
   function update(object) {
-    return new Hash(object).inject(this, function(result, pair) {
+    return new $H(object).inject(this, function(result, pair) {
       result.set(pair.key, pair.value);
       return result;
     });
@@ -1201,7 +1201,7 @@ var Hash = Class.create(Enumerable, (function() {
   }
 
   function clone() {
-    return new Hash(this);
+    return new $H(this);
   }
 
   return {
@@ -1375,7 +1375,7 @@ Ajax.Base = Class.create({
 
     if (Object.isString(this.options.parameters))
       this.options.parameters = this.options.parameters.toQueryParams();
-    else if (Object.isHash(this.options.parameters))
+    else if (Object.is$H(this.options.parameters))
       this.options.parameters = this.options.parameters.toObject();
   }
 });

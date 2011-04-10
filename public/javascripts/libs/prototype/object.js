@@ -449,7 +449,7 @@ var system = require("sys");
   }
 
   /**
-   *  Object.isHash(object) -> Boolean
+   *  Object.is$H(object) -> Boolean
    *  - object (Object): The object to test.
    *
    *  Returns `true` if `object` is an instance of the [[Hash]] class; `false`
@@ -457,16 +457,16 @@ var system = require("sys");
    *
    *  ##### Examples
    *
-   *      Object.isHash(new Hash({ }));
+   *      Object.is$H(new $H({ }));
    *      //-> true
    *
-   *      Object.isHash($H({ }));
+   *      Object.is$H($H({ }));
    *      //-> true
    *
-   *      Object.isHash({ });
+   *      Object.is$H({ });
    *      //-> false
   **/
-  function isHash(object) {
+  function is$H(object) {
     return object instanceof require("./hash").Hash;
   }
 

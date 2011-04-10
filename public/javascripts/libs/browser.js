@@ -48,9 +48,7 @@ var Browser = Class.extend({
           data += chunk;
         });
         response.on('end', function() {
-          system.puts("end-before");
           callback(data);
-          system.puts("end-after");
         });
       }
     });

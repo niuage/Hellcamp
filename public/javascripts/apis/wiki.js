@@ -1,7 +1,6 @@
 var system   = require('sys');
 var Api = require("./api").Api;
-var C = require("../libs/common").Common;
-var Class = C.$Class;
+var prototype = require("prototype"); Object.extend(global, prototype);
 
 var WikiApi = Class.create(Api, {
 

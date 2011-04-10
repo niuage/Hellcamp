@@ -1,8 +1,7 @@
 var system   = require('sys');
 var Engine = require("./engine").Engine;
 var GithubApi = require("../apis/github").GithubApi;
-var C = require("../libs/common").Common;
-var Class = C.$Class;
+var prototype = require("prototype"); Object.extend(global, prototype);
 
 var Github = Class.create(Engine, {
   info: {

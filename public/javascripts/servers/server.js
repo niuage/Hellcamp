@@ -1,10 +1,11 @@
 var system   = require('sys');
-var C = require("../libs/common").Common;
-var Class = C.$Class;
-var Hash = C.$Hash.from;
+var prototype = require("prototype");
+Object.extend(global, prototype);
+
 var Bot = require('../bots/bot').Bot;
 var Campfire = require("../libs/campfire").Campfire;
 var Engines = require("../engines/engines").Engines;
+var YQL = require("../libs/yql").YQL;
 
 var Server = Class.create({
   
@@ -49,7 +50,7 @@ var Server = Class.create({
   },
 
   config: function(options) {
-    this.options = Hash({
+    this.options = $H({
       source: "config/config.yml"
     }).merge(options || {});
 
@@ -59,7 +60,7 @@ var Server = Class.create({
       .toString('utf-8')
       )[this.app.settings.env];
 
-    var server = Hash({
+    var server = $H({
       port: 3001,
       host: "localhost"
     }).merge(this.options).merge(this.config.server || {});

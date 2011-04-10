@@ -1,7 +1,6 @@
 var system   = require('sys');
 var Browser = require("../libs/browser").Browser;
-var C = require("../libs/common").Common;
-var Class = C.$Class;
+var prototype = require("prototype"); Object.extend(global, prototype);
 
 var Api = Class.create({
 

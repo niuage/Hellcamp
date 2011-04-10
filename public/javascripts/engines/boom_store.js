@@ -1,7 +1,6 @@
 var system   = require('sys');
 var BaseStore = require("./base_store").BaseStore;
-var C = require("../libs/common").Common;
-var Class = C.$Class;
+var prototype = require("prototype"); Object.extend(global, prototype);
 
 var BoomStore = Class.create(BaseStore, {
   info: {

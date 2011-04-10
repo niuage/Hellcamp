@@ -42,7 +42,6 @@ Campfire.prototype.room = function(idOrName, callback) {
 };
 
 Campfire.prototype.user = function(id, callback) {
-  system.puts('/users/' + id  );
   this.get('/users/' + id, callback);
 };
 
@@ -66,8 +65,6 @@ Campfire.prototype.request = function(method, path, body, callback) {
     'Connection': 'keep-alive',
     'Keep-Alive': 115
   };
-
-  system.puts(this.domain);
 
   if (method == 'POST') {
     if (typeof(body) != 'string') {

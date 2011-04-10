@@ -1,8 +1,7 @@
 var system   = require('sys');
 var Engine = require("./engine").Engine;
 var WolframApi = require("../apis/wolfram").WolframApi;
-var C = require("../libs/common").Common;
-var Class = C.$Class;
+var prototype = require("prototype"); Object.extend(global, prototype);
 
 var Wolfram = Class.create(Engine, {
   info: {

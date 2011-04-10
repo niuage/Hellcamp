@@ -2,8 +2,7 @@ var system   = require('sys');
 var exec = require('child_process').exec;
 var Api = require("./api").Api;
 var LibXml = require("libxmljs");
-var C = require("../libs/common").Common;
-var Class = C.$Class;
+var prototype = require("prototype"); Object.extend(global, prototype);
 
 var PivotalApi = Class.create(Api, {
 

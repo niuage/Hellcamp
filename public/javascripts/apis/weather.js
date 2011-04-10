@@ -3,14 +3,13 @@
 var system   = require('sys');
 var Api = require("./api").Api;
 var LibXml = require("libxmljs");
-var C = require("../libs/common").Common;
-var Class = C.$Class;
-var Hash = C.$Hash.from;
+var prototype = require("prototype"); Object.extend(global, prototype);
+
 
 var WeatherApi = Class.create(Api, {
 
   initialize: function($super, opts) {
-    opts = Hash({
+    opts = $H({
       version: "1.0",
       host: "xoap.weather.com",
       path: "/",
@@ -128,8 +127,6 @@ var WeatherApi = Class.create(Api, {
   condition_template: function(weather, day, callback) {
     var location = weather.get("./loc"),
     wind = day.get("./wind");
-    //    day_name = day.attr("t");
-    system.puts(day);
 
     callback({
       body: this.icon(day.get("./icon").text())

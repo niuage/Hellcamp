@@ -1,7 +1,7 @@
 var system   = require('sys');
 var Api = require("./api").Api;
-var C = require("../libs/common").Common;
-var Class = C.$Class;
+var prototype = require("prototype");
+Object.extend(global, prototype);
 
 var GoogleApi = Class.create(Api, {
 
@@ -19,10 +19,11 @@ var GoogleApi = Class.create(Api, {
     this.get("search/images", {
       q: params[0]
     },
-    { ssl: true },
+    {
+      ssl: true
+    },
     function(data) {
       if ((data = ( JSON.parse(data)) ) && data.responseData && (res = data.responseData.results) && res.length > 0) {
-        system.puts(res.length);
         var pos = res.length;
         pos = Math.floor(Math.random() * (pos > 4 ? 4 : pos));
         callback({
@@ -37,7 +38,6 @@ var GoogleApi = Class.create(Api, {
   },
 
   translate: function(params, callback) {
-    system.puts("translate");
     var p = {
       from: "",
       to: "en",
@@ -47,7 +47,6 @@ var GoogleApi = Class.create(Api, {
       p.query = params[1];
       if (params[0]) {
         var langpair = params[0].split(":");
-        system.puts(langpair);
         if (langpair.length == 2) {
           p.from = langpair[0];
           p.to = langpair[1];
@@ -61,10 +60,10 @@ var GoogleApi = Class.create(Api, {
       langpair: p.from + "|" + p.to,
       format: "text"
     },
-    { ssl: true },
+    {
+      ssl: true
+    },
     function(data) {
-      system.puts("victoire!");
-      system.puts(data);
       if ((data = JSON.parse(data)) && (res = data.responseData)) {
         callback({
           body: res.translatedText

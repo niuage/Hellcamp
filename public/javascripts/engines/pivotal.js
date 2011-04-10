@@ -2,8 +2,7 @@ var system   = require('sys');
 var Browser = require("../libs/browser").Browser;
 var Engine = require("./engine").Engine;
 var PivotalApi = require("../apis/pivotal").PivotalApi;
-var C = require("../libs/common").Common;
-var Class = C.$Class;
+var prototype = require("prototype"); Object.extend(global, prototype);
 
 var Pivotal = Class.create(Engine, {
   info: {

@@ -1,8 +1,7 @@
 var system   = require('sys');
 var Engine = require("./engine").Engine;
 var WikiApi = require("../apis/wiki").WikiApi;
-var C = require("../libs/common").Common;
-var Class = C.$Class;
+var prototype = require("prototype"); Object.extend(global, prototype);
 
 var Wiki = Class.create(Engine, {
   info: {

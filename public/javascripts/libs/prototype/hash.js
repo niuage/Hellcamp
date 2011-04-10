@@ -13,7 +13,7 @@
  *
  *      var h = $H({name: 'John', age: 26, country: 'Australia'});
  *      // Equivalent to:
- *      var h = new Hash({name: 'John', age: 26, country: 'Australia'});
+ *      var h = new $H({name: 'John', age: 26, country: 'Australia'});
  *      // Can then be accessed the classic Hash way
  *      h.get('country');
  *      // -> 'Australia'
@@ -24,7 +24,7 @@ var Enumerable = require("./enumerable").Enumerable;
 require("./object"); // probably not required
 
 function $H(object) {
-  return new Hash(object);
+  return new $H(object);
 }
 
 /** section: Language
@@ -42,7 +42,7 @@ function $H(object) {
  *
  *  ##### Creating a hash
  *
- *  You can create a Hash either via `new Hash()` or the convenience alias
+ *  You can create a Hash either via `new $H()` or the convenience alias
  *  `$H()`; there is **no** difference between them. In either case, you may
  *  optionally pass in an object to seed the [[Hash]]. If you pass in a [[Hash]],
  *  it will be cloned.
@@ -51,13 +51,13 @@ function $H(object) {
 
 var Hash = Class.create(Enumerable, (function() {
   /**
-   *  new Hash([object])
+   *  new $H([object])
    *
    *  Creates a new [[Hash]]. If `object` is given, the new hash will be populated
    *  with all the object's properties. See [[$H]].
    **/
   function initialize(object) {
-    this._object = Object.isHash(object) ? object.toObject() : Object.clone(object);
+    this._object = Object.is$H(object) ? object.toObject() : Object.clone(object);
   }
 
   // Docs for #each even though technically it's implemented by Enumerable
@@ -138,7 +138,7 @@ var Hash = Class.create(Enumerable, (function() {
    *
    *  ##### Examples
    *
-   *      var h = new Hash({a: 'apple', b: 'banana', c: 'coconut'});
+   *      var h = new $H({a: 'apple', b: 'banana', c: 'coconut'});
    *      h.get('a');
    *      // -> 'apple'
   **/
@@ -156,7 +156,7 @@ var Hash = Class.create(Enumerable, (function() {
    *
    *  ##### Example
    *
-   *      var h = new Hash({a: 'apple', b: 'banana', c: 'coconut'});
+   *      var h = new $H({a: 'apple', b: 'banana', c: 'coconut'});
    *      h.keys();
    *      // -> ["a", "b", "c"]
    *      h.unset('a');
@@ -178,7 +178,7 @@ var Hash = Class.create(Enumerable, (function() {
    *
    *  ##### Example
    *
-   *      var h = new Hash({ a: 'apple', b: 'banana', c: 'coconut' });
+   *      var h = new $H({ a: 'apple', b: 'banana', c: 'coconut' });
    *      var obj = h.toObject();
    *      obj.a;
    *      // -> "apple"
@@ -285,7 +285,7 @@ var Hash = Class.create(Enumerable, (function() {
    *      // -> ["one", "two", "three"] (has merged contents)
   **/
   function update(object) {
-    return new Hash(object).inject(this, function(result, pair) {
+    return new $H(object).inject(this, function(result, pair) {
       result.set(pair.key, pair.value);
       return result;
     });
@@ -376,7 +376,7 @@ var Hash = Class.create(Enumerable, (function() {
    *  Returns a clone of this [[Hash]].
   **/
   function clone() {
-    return new Hash(this);
+    return new $H(this);
   }
 
   return {

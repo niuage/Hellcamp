@@ -1,6 +1,6 @@
 var system   = require('sys');
-var C = require("../libs/common").Common;
-var Class = C.$Class;
+var prototype = require("prototype");
+Object.extend(global, prototype);
 
 var Engine = Class.create({
   info: {
@@ -67,11 +67,7 @@ var Engine = Class.create({
   },
   enter_message: function(room, message) {
     this.bot.campfire.user(message.user_id, function(data) {
-      if (data.user) {
-        system.puts(data.user.name + " entered the " + room.name + " room");
-      } else {
-        system.puts("ERRRRRRRRRRROR");
-      }
+      system.puts(data.user.name + " entered the " + room.name + " room");
     });
     return global.Signal.STOP;
   },
@@ -86,17 +82,12 @@ var Engine = Class.create({
   },
 
   bind: function(bot) {
-    system.puts("bind events for " + this.info.name);
     bot.on("^/help", function(message, matches, callback) {
       callback({
         body: this.formated_help(),
         type: "PasteMessage"
       })
     });
-
-    bot.on(".*", function(message, matches, callback) {
-//      system.puts(this.bot.name);
-    })
   },
 
   set_bot: function(bot) {

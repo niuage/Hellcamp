@@ -2,8 +2,7 @@ var system   = require('sys');
 var Api = require("./api").Api;
 // https://github.com/niuage/node-github
 var Github = require("github").GitHubApi;
-var C = require("../libs/common").Common;
-var Class = C.$Class;
+var prototype = require("prototype"); Object.extend(global, prototype);
 
 var GithubApi = Class.create(Api, {
 
@@ -30,7 +29,6 @@ var GithubApi = Class.create(Api, {
       b: "master"
     }, params.argv);
     this.authenticate();
-    system.puts("authenticated");
     if (args.p) {
       args.b += "?page=" + args.p
     }
@@ -62,7 +60,6 @@ var GithubApi = Class.create(Api, {
       u: "challengepost"
     }, params.argv);
     this.authenticate();
-    system.puts("authenticated");
     this.github.getCommitApi().getSpecificCommit(args.u, args.r, args.i, function(err, commit) {
       if (!commit) {
         callback({

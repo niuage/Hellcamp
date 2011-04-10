@@ -1,7 +1,6 @@
 var system   = require('sys');
 var Engine = require("./engine").Engine;
-var C = require("../libs/common").Common;
-var Class = C.$Class;
+var prototype = require("prototype"); Object.extend(global, prototype);
 
 var Shout = Class.create(Engine, {
   info: {
@@ -17,7 +16,6 @@ var Shout = Class.create(Engine, {
     $super(bot);
     bot.on("/shout\\s(.*)", function(message, matches, callback) {
       var self = this;
-      system.puts(this.bot.name);
       this.bot.campfire.user(message.user_id, function(data) {
         var user = data.user;
         var all_rooms = self.bot.campfire_rooms;

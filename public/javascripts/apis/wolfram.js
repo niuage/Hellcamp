@@ -1,8 +1,8 @@
 var system   = require('sys');
 var Api = require("./api").Api;
 var LibXml = require("libxmljs");
-var C = require("../libs/common").Common;
-var Class = C.$Class;
+var prototype = require("prototype");
+Object.extend(global, prototype);
 //var p = require("prototype")
 
 var WolframApi = Class.create(Api, {
@@ -26,7 +26,6 @@ var WolframApi = Class.create(Api, {
       var images = data.find("//img");
       if (images) {
         images.each(function(image) {
-          system.puts(system.inspect(image) + "fuck me")
           callback({
             body: image.attr("src").value() + ".gif"
           })

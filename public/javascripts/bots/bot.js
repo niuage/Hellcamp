@@ -1,7 +1,6 @@
 var system   = require('sys');
 var Browser = require("../libs/browser").Browser;
-var C = require("../libs/common").Common;
-var Class = C.$Class;
+var prototype = require("prototype"); Object.extend(global, prototype);
 
 var sig = global.Signal = {
   STOP: 0,
@@ -24,9 +23,7 @@ var Bot = Class.create({
   },
   
   process_message: function(room, message) {
-    system.puts("-----> " + this.name);
     this.engines.each(function(engine) {
-      system.puts(engine.bot.name);
     }, this);
     this.engines.each(function(engine) {
       if (engine.process(room, message) === sig.STOP) {
@@ -41,7 +38,6 @@ var Bot = Class.create({
       room.join(function() {
         self.campfire_rooms.push(room);
         room.listen(function(message) {
-          system.puts("-----> " + self.name);
           if (message.body) system.puts(message.body);
           if (message.user_id != self.id) {
             self.process_message(room, message);
@@ -69,10 +65,6 @@ var Bot = Class.create({
   init_engines: function() {
     this.engines.each(function(engine) {
       engine.set_bot(this);
-    }, this);
-    system.puts("this bot is: " + this.name);
-    this.engines.each(function(engine) {
-      system.puts(engine.bot.name);
     }, this);
   }
 });
