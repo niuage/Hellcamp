@@ -36,10 +36,8 @@ var TmdbApi = Class.create(Api, {
 
   movies_summary: function(movies, callback) {
     var movies_summary = [];
-      
-    for (movie  in movies) {
-      var m = movies[movie];
-      if (movie == 0 && m.posters && m.posters[0]) {
+    movies.each(function(m, i) {
+      if (!i && m.posters && m.posters[0]) {
         callback({
           body: m.posters[0].image.url
         })
@@ -48,8 +46,9 @@ var TmdbApi = Class.create(Api, {
         name: m.name,
         year: m.released ? m.released.replace(/-\d{2}-\d{2}/, "") : "N/A",
         imdb: this.imdb_url + m.imdb_id
-      }))
-    }
+      }));
+    }, this);
+    
     callback({
       body: movies_summary.join(" | ")
     })

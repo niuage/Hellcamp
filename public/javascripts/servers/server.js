@@ -4,7 +4,7 @@ var Class = C.$Class;
 var Hash = C.$Hash.from;
 var Bot = require('../bots/bot').Bot;
 var Campfire = require("../libs/campfire").Campfire;
-var Engines = require("./engines").Engines;
+var Engines = require("../engines/engines").Engines;
 
 var Server = Class.create({
   

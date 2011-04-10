@@ -1,13 +1,14 @@
 var system   = require('sys');
 var Browser = require("../libs/browser").Browser;
 var C = require("../libs/common").Common;
+var Class = C.$Class;
 
 var sig = global.Signal = {
   STOP: 0,
   CONTINUE: 1
 };
 
-var Bot = C.$Class.create({
+var Bot = Class.create({
   initialize: function(name, options) {
     this.name = name;
     this.active = options.active;
