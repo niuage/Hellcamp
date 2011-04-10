@@ -1,20 +1,22 @@
 var system   = require('sys');
 var Engine = require("./engine").Engine;
 var GoogleApi = require("../apis/google").GoogleApi;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var Translation = Engine.extend({
+var Translation = Class.create(Engine, {
   info: {
     name: "Translation",
     version: 1
   },
 
-  init: function(opts) {
-    this._super();
+  initialize: function($super, opts) {
+    $super();
     this.google = new GoogleApi();
   },
 
-  bind: function(bot) {
-    this._super(bot);
+  bind: function($super, bot) {
+    $super(bot);
 
     bot.on("/t:?([a-zA-Z_:]+)?\\s(.+)", function(message, matches, callback) {
       this.google.translate(matches, callback);

@@ -16,7 +16,7 @@ var Weather = Class.create(Engine, {
   initialize: function($super, opts) {
     $super();
     this.browser = new Browser({});
-    this.weather = new WeatherApi(opts.weather_api)
+    this.weather = new WeatherApi(opts.api)
   },
 
   bind: function($super, bot) {

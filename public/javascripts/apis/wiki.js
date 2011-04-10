@@ -1,10 +1,12 @@
 var system   = require('sys');
-var Api = require("./api").Api
+var Api = require("./api").Api;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var WikiApi = Api.extend({
+var WikiApi = Class.create(Api, {
 
-  init: function(opts) {
-    this._super(opts);
+  initialize: function($super, opts) {
+    $super(opts);
 
     this.host = "en.wikipedia.org";
     this.path = "/w/api.php";

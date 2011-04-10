@@ -1,20 +1,22 @@
 var system   = require('sys');
 var Engine = require("./engine").Engine;
 var WikiApi = require("../apis/wiki").WikiApi;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var Wiki = Engine.extend({
+var Wiki = Class.create(Engine, {
   info: {
     name: "Wiki",
     version: 1
   },
 
-  init: function(opts) {
-    this._super();
+  initialize: function($super, opts) {
+    $super();
     this.wiki = new WikiApi();
   },
 
-  bind: function(bot) {
-    this._super(bot);
+  bind: function($super, bot) {
+    $super(bot);
     bot.on("/wiki\\s(.*)", function(message, matches, callback) {
       this.wiki.search(matches, callback);
     });

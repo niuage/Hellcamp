@@ -16,8 +16,11 @@ var Engine = Class.create({
 
   process: function(room, message) {
     if ((type = this.type()[message.type])) {
-      type.apply(this, [room, message]);
+      if (type.apply(this, [room, message]) === global.Signal.STOP) {
+        return sig;
+      }
     }
+    return global.Signal.CONTINUE;
   },
 
   type: function() {
@@ -34,7 +37,6 @@ var Engine = Class.create({
     for (event in this.events) {
       if ((match = message.body.match(new RegExp(event)))) {
         system.puts("found in " + this.info.name);
-        //        if (this.black_listed(message.body, callback)) return;
         match.shift();
         this.events[event].apply(this, [message, match, callback]);
       }
@@ -65,8 +67,14 @@ var Engine = Class.create({
   },
   enter_message: function(room, message) {
     system.puts(this.info.name)
+    system.puts(message.user_id);
     this.bot.campfire.user(message.user_id, function(data) {
-      system.puts(data.user.name + " entered the " + room.name + " room");
+      system.puts(system.inspect(data));
+      if (data.user) {
+        system.puts(data.user.name + " entered the " + room.name + " room");
+      } else {
+        system.puts("ERRRRRRRRRRROR");
+      }
     });
     return global.Signal.STOP;
   },

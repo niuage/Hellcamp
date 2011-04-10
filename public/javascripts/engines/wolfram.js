@@ -12,7 +12,7 @@ var Wolfram = Class.create(Engine, {
 
   initialize: function($super, opts) {
     $super();
-    this.wolfram = new WolframApi(opts.wolfram_api);
+    this.wolfram = new WolframApi(opts.api);
   },
 
   bind: function($super, bot) {

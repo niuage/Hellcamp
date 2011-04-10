@@ -1,20 +1,22 @@
 var system   = require('sys');
 var Engine = require("./engine").Engine;
 var DribbbleApi = require("../apis/dribbble").DribbbleApi;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var Dribbble = Engine.extend({
+var Dribbble = Class.create(Engine, {
   info: {
     name: "Dribbble",
     version: 1
   },
 
-  init: function(opts) {
-    this._super();
+  initialize: function($super, opts) {
+    $super();
     this.dribbble = new DribbbleApi();
   },
 
-  bind: function(bot) {
-    this._super(bot);
+  bind: function($super, bot) {
+    $super(bot);
     bot.on("dribbble.com/shots/(\\d+).*", function(message, matches, callback) {
       this.dribbble.search(matches, callback);
     });

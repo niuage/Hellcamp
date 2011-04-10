@@ -1,18 +1,20 @@
 var system   = require('sys');
 var Engine = require("./engine").Engine;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var Shout = Engine.extend({
+var Shout = Class.create(Engine, {
   info: {
     name: "Shout",
     version: 1
   },
 
-  init: function(opts) {
-    this._super();
+  initialize: function($super, opts) {
+    $super();
   },
 
-  bind: function(bot) {
-    this._super(bot);
+  bind: function($super, bot) {
+    $super(bot);
     bot.on("/shout\\s(.*)", function(message, matches, callback) {
       var self = this;
       this.bot.campfire.user(message.user_id, function(data) {

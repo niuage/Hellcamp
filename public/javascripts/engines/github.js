@@ -12,7 +12,7 @@ var Github = Class.create(Engine, {
 
   initialize: function($super, opts) {
     $super();
-    this.github = new GithubApi(opts.github_api);
+    this.github = new GithubApi(opts.api);
     this.parser = require('../libs/argv');
   },
 

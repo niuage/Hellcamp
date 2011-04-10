@@ -12,7 +12,7 @@ var Bitly = Class.create(Engine, {
 
   initialize: function($super, opts) {
     $super();
-    this.bitly = new BitlyApi(opts.bitly_api);
+    this.bitly = new BitlyApi(opts.api);
   },
 
   bind: function($super, bot) {

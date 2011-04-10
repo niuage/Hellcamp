@@ -3,7 +3,7 @@ var Api = require("./api").Api
 
 var FlickrApi = Api.extend({
 
-  init: function(opts) {
+  initialize: function(opts) {
     this._super(opts);
 
     this.host = "api.flickr.com";

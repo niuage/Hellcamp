@@ -3,6 +3,7 @@ var Api = require("./api").Api;
 var LibXml = require("libxmljs");
 var C = require("../libs/common").Common;
 var Class = C.$Class;
+//var p = require("prototype")
 
 var WolframApi = Class.create(Api, {
 
@@ -24,12 +25,12 @@ var WolframApi = Class.create(Api, {
       data =  self.parser.parseXmlString(data);
       var images = data.find("//img");
       if (images) {
-        for (i in images) {
-          var image = images[i];
+        images.each(function(image) {
+          system.puts(system.inspect(image) + "fuck me")
           callback({
             body: image.attr("src").value() + ".gif"
           })
-        }
+        }, this);
       } else {
         var future_topics = data.find("//futuretopic");
         for (f in future_topics) {

@@ -4,17 +4,17 @@ var Class = C.$Class;
 var Hash = C.$Hash.from;
 var Bot = require('../bots/bot').Bot;
 var Campfire = require("../libs/campfire").Campfire;
+var Engines = require("./engines").Engines;
 
 var Server = Class.create({
   
   initialize: function(options) {
-    this.create_app();
-    this.config(options);
-    this.create_redis_client();
-    this.open_socket();
+    this.init_app(); // create express app
+    this.config(options); // read config from file
+    this.create_redis_client(); // create redis client (used for publish/subscribe)
+    this.open_socket(); // open socket to client
 
-    this.create_engines();
-    this.create_bots();
+    this.create_bots(); // create engines and bots
   },
 
   /****************************/
@@ -29,7 +29,7 @@ var Server = Class.create({
     this.socket = io.listen(this.app);
   },
 
-  create_app: function() {
+  init_app: function() {
     var express = require('express');
     this.app = module.exports = express.createServer();
     this.app.use(express.static(__dirname + '/public'));
@@ -38,8 +38,6 @@ var Server = Class.create({
   start: function() {
     this.app.listen(this.port, this.host);
     console.log("Express server listening on port %d", this.app.address().port);
-    
-    system.puts(this.app.settings.env);
     this.bots.each(function(bot) {
       bot.start();
     });
@@ -52,9 +50,7 @@ var Server = Class.create({
 
   config: function(options) {
     this.options = Hash({
-      source: "config/config.yml",
-      port: 3001,
-      host: "localhost"
+      source: "config/config.yml"
     }).merge(options || {});
 
     this.config = global.config = require('yaml').eval(
@@ -63,7 +59,10 @@ var Server = Class.create({
       .toString('utf-8')
       )[this.app.settings.env];
 
-    var server = Hash(this.config.server).merge(this.options);
+    var server = Hash({
+      port: 3001,
+      host: "localhost"
+    }).merge(this.options).merge(this.config.server || {});
 
     this.port = server.get("port");
     this.host = server.get("host");
@@ -73,47 +72,45 @@ var Server = Class.create({
 
   create_engines: function() {
     this.engines = {};
-
-    var J5 = require("../engines/j5").J5,
-    //Pivotal = require("./engines/pivotal").Pivotal,
-    Weather = require("../engines/weather").Weather,
-    Flickr = require("../engines/flickr").Flickr,
-    //BoomStore = require("./engines/boom_store").BoomStore,
-    //Translation = require("./engines/translation").Translation,
-    Tmdb = require("../engines/tmdb").Tmdb,
-    //Wiki = require("./engines/wiki").Wiki,
-    Bitly = require("../engines/bitly").Bitly,
-    //Shout = require("./engines/shout").Shout;
-    //Dribbble = require("./engines/dribbble").Dribbble;
-    Wolfram = require("../engines/wolfram").Wolfram,
-    Github = require("../engines/github").Github;
-
     this.config.engines.each(function(engine) {
       for (var name in engine) {
-        var Klass = eval(name); // might want to find another way?
-        //        system.puts(system.inspect(engine[name]));
+        var Klass = Engines[name];
         this.engines[name] = new Klass(engine[name]);
       }
     }, this);
   },
 
   create_bots: function() {
+    this.create_engines();
+
+    var get_rooms = function(b) {
+      var rooms = []
+      b.campfire.rooms.each(function(room) {
+        rooms.push(room.id);
+      }, this);
+      return rooms;
+    }
+
+    var get_engines = function(b) {
+      var engines = [];
+      b.engines.each(function(engine) {
+        var e = this.engines[engine.name];
+        if (e)
+          engines.push(e);
+      }, this);
+      return engines;
+    }
+
     this.config.bots.each(function(bot) {
       for (var bot_name in bot) {
+
         var b = bot[bot_name];
-        var engines = [];
-        var rooms = [];
-        b.campfire.rooms.each(function(room) {
-          rooms.push(room.id);
-        }, this);
-        b.engines.each(function(engine) {
-          engines.push(this.engines[engine.name])
-        }, this);
-        this.bots.push(
+        this.add_bot(
           new Bot(bot_name, {
             campfire: new Campfire(b.campfire.config),
-            engines: engines,
-            rooms: rooms
+            engines: get_engines.apply(this, [b]),
+            rooms: get_rooms.apply(this, [b]),
+            active: b.active ? true : false
           })
           );
       }

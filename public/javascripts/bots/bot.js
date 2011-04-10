@@ -9,9 +9,8 @@ var sig = global.Signal = {
 
 var Bot = C.$Class.create({
   initialize: function(name, options) {
-    system.puts("lala");
-    system.puts(system.inspect(name))
     this.name = name;
+    this.active = options.active;
     this.campfire = options.campfire;
     this.rooms = options.rooms;
     this.campfire_rooms = [];
@@ -37,7 +36,7 @@ var Bot = C.$Class.create({
       room.join(function() {
         self.campfire_rooms.push(room);
         room.listen(function(message) {
-          system.puts(":");
+          if (message.body) system.puts(message.body);
           if (message.user_id != self.id) {
             self.process_message(room, message);
           }
@@ -47,8 +46,10 @@ var Bot = C.$Class.create({
   },
 
   start: function() {
-    for(i = 0; i < this.rooms.length; i++) {
-      this.listen(this.rooms[i]);
+    if (this.active) {
+      for(i = 0; i < this.rooms.length; i++) {
+        this.listen(this.rooms[i]);
+      }
     }
   },
 

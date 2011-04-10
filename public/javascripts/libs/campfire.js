@@ -43,6 +43,7 @@ Campfire.prototype.room = function(idOrName, callback) {
 };
 
 Campfire.prototype.user = function(id, callback) {
+  system.puts(id);
   this.get('/users/' + id, callback);
 };
 

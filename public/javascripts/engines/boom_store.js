@@ -1,18 +1,20 @@
 var system   = require('sys');
 var BaseStore = require("./base_store").BaseStore;
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var BoomStore = BaseStore.extend({
+var BoomStore = Class.create(BaseStore, {
   info: {
     name: "BoomStore",
     version: 1
   },
 
-  init: function(opts) {
-    this._super();
+  initialize: function($super, opts) {
+    $super();
   },
 
-  bind: function(bot) {
-    this._super(bot);
+  bind: function($super, bot) {
+    $super(bot);
 
     bot.on("/bim\\s(\\S+)\\s(.+)", function(message, matches, callback) {
       this.store.set(message, matches, callback);

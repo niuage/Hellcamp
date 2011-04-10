@@ -12,7 +12,7 @@ var Tmdb = Class.create(Engine, {
 
   initialize: function($super, opts) {
     $super();
-    this.tmdb = new TmdbApi(opts.tmdb_api);
+    this.tmdb = new TmdbApi(opts.api);
   },
 
   bind: function($super, bot) {

@@ -2,11 +2,13 @@ var system   = require('sys');
 var exec = require('child_process').exec;
 var Api = require("./api").Api;
 var LibXml = require("libxmljs");
+var C = require("../libs/common").Common;
+var Class = C.$Class;
 
-var PivotalApi = Api.extend({
+var PivotalApi = Class.create(Api, {
 
-  init: function(opts) {
-    this._super(opts);
+  initialize: function($super, opts) {
+    $super(opts);
     this.parser = LibXml;
   },
 
@@ -53,7 +55,6 @@ var PivotalApi = Api.extend({
       }
 
       callback({
-        // That's all your fault, Juan Müller! ;) Need to investigate later...
         body: res.join("\n").replace(/ü/g, "u"),
         type: "PasteMessage"
       })

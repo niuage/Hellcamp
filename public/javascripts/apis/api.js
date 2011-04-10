@@ -8,10 +8,9 @@ var Api = Class.create({
   initialize: function(opts) {
     this.browser = new Browser();
     this.querystring = require("querystring");
-    if (opts && (credentials = opts.credentials)) {
-      this.key = credentials.key;
-      this.secret = credentials.secret;
-    }
+    opts = opts || {};
+    this.key = opts.key;
+    this.secret = opts.secret;
   },
 
   encode: function(obj) {

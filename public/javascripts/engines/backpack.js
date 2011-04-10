@@ -8,7 +8,7 @@ var Backpack = Engine.extend({
     version: 1
   },
 
-  init: function(opts) {
+  initialize: function(opts) {
     this._super();
     this.backpack = new BackpackApi(opts.api);
   },

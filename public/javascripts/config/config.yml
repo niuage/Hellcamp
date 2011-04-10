@@ -3,7 +3,8 @@ development:
     port: 3002
     host: localhost
   bots:
-    - johnny5:
+    - niuage:
+      active: 1
       campfire:
         config:
           token: "ea9f77add0b6ba0aa54e79d7c1111aabbf9aec01"
@@ -15,13 +16,20 @@ development:
           - id: 392800
       engines:
         - name: J5
-        - name: Flickr
+        - name: Pivotal
         - name: Weather
+        - name: Flickr
+        - name: BoomStore
+        - name: Translation
         - name: Tmdb
+        - name: Wiki
         - name: Bitly
+        - name: Shout
+        - name: Dribbble
         - name: Wolfram
         - name: Github
-    - niuage:
+    - johnny5:
+      active: 0
       campfire:
         config:
           token: "7f3e8b9c4caff6db3ac20d7afe93c88c59e17736"
@@ -34,24 +42,31 @@ development:
           - id: 357538
       engines:
         - name: J5
-        - name: Flickr
+        - name: Pivotal
         - name: Weather
+        - name: Flickr
+        - name: BoomStore
+        - name: Translation
         - name: Tmdb
+        - name: Wiki
         - name: Bitly
+        - name: Shout
+        - name: Dribbble
         - name: Wolfram
         - name: Github
   engines:
-    - J5:
-      api:
-        key: ""
-    - Flickr:
-      api:
-        key: "2bc972efba6309fe9376d55482ab32bb"
+    - J5: 1
+    - Pivotal: 1
     - Weather:
       api:
         key: "c5289d5b3b5fd943"
         secret: 1245671229
       default_location: 10014
+    - Flickr:
+      api:
+        key: "2bc972efba6309fe9376d55482ab32bb"
+    - BoomStore: 1
+    - Translation: 1
     - Tmdb:
       api:
         key: "0feeb53d4f29c916ce155789b1cfda00"
@@ -59,6 +74,8 @@ development:
       api:
         key: "R_c5731eaf90d0abfbda2c226e356a70c7"
         secret: niuage2
+    - Shout: 1
+    - Dribbble: 1
     - Wolfram:
       api:
         key: "T58EKE-35TP7JWUQY"

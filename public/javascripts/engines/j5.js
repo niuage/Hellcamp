@@ -18,7 +18,8 @@ var J5 = Class.create(Engine, {
     this.youtube = new YoutubeApi();
   },
 
-  bind: function(bot) {
+  bind: function($super, bot) {
+    $super(bot);
     bot.on("/search\\s(.+)", function(message, matches, callback) {
       system.puts("seartch");
       this.google.search(matches, callback);
