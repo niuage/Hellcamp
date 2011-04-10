@@ -70,19 +70,7 @@ var Server = Class.create({
     this.bots = this.options.get("bots") || [];
   },
 
-  create_engines: function() {
-    this.engines = {};
-    this.config.engines.each(function(engine) {
-      for (var name in engine) {
-        var Klass = Engines[name];
-        this.engines[name] = new Klass(engine[name]);
-      }
-    }, this);
-  },
-
   create_bots: function() {
-    this.create_engines();
-
     var get_rooms = function(b) {
       var rooms = []
       b.campfire.rooms.each(function(room) {
@@ -94,27 +82,26 @@ var Server = Class.create({
     var get_engines = function(b) {
       var engines = [];
       b.engines.each(function(engine) {
-        var e = this.engines[engine.name];
-        if (e)
-          engines.push(e);
+        var name = engine.name;
+        var config = this.config.engines[name];
+        var Klass = Engines[name];
+        engines.push(new Klass(config));
       }, this);
       return engines;
     }
 
-    this.config.bots.each(function(bot) {
-      for (var bot_name in bot) {
-
-        var b = bot[bot_name];
-        this.add_bot(
-          new Bot(bot_name, {
-            campfire: new Campfire(b.campfire.config),
-            engines: get_engines.apply(this, [b]),
-            rooms: get_rooms.apply(this, [b]),
-            active: b.active ? true : false
-          })
-          );
-      }
-    }, this);
+    var bots = this.config.bots;
+    for (bot in bots) {
+      var b = bots[bot];
+      this.add_bot(
+        new Bot(bot, {
+          campfire: new Campfire(b.campfire.config),
+          engines: get_engines.apply(this, [b]),
+          rooms: get_rooms.apply(this, [b]),
+          active: b.active ? true : false
+        })
+        );
+    }
   }
 });
 

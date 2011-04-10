@@ -66,10 +66,7 @@ var Engine = Class.create({
     return global.Signal.STOP;
   },
   enter_message: function(room, message) {
-    system.puts(this.info.name)
-    system.puts(message.user_id);
     this.bot.campfire.user(message.user_id, function(data) {
-      system.puts(system.inspect(data));
       if (data.user) {
         system.puts(data.user.name + " entered the " + room.name + " room");
       } else {
@@ -95,16 +92,15 @@ var Engine = Class.create({
         body: this.formated_help(),
         type: "PasteMessage"
       })
+    });
+
+    bot.on(".*", function(message, matches, callback) {
+//      system.puts(this.bot.name);
     })
   },
 
   set_bot: function(bot) {
-    if (bot) {
-      this.bot = bot;
-      return null;
-    }
-    else
-      return this.bot;
+    this.bot = bot;
   },
 
   black_listed: function(item, callback) {

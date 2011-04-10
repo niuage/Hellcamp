@@ -4,7 +4,6 @@ var https  = require('https');
 var encode = require('./base64').encode;
 
 var Campfire = function(options) {
-  system.puts(system.inspect(options))
   this.ssl           = options.ssl;
   this.http          = this.ssl ? https : http;
   this.port          = this.ssl ? 443 : 80;
@@ -43,7 +42,7 @@ Campfire.prototype.room = function(idOrName, callback) {
 };
 
 Campfire.prototype.user = function(id, callback) {
-  system.puts(id);
+  system.puts('/users/' + id  );
   this.get('/users/' + id, callback);
 };
 
@@ -68,6 +67,8 @@ Campfire.prototype.request = function(method, path, body, callback) {
     'Keep-Alive': 115
   };
 
+  system.puts(this.domain);
+
   if (method == 'POST') {
     if (typeof(body) != 'string') {
       body = JSON.stringify(body);
@@ -83,8 +84,9 @@ Campfire.prototype.request = function(method, path, body, callback) {
     path    : path,
     headers : headers
   };
-
+  
   var request = this.http.request(options, function(response) {
+//    system.puts(system.inspect(response))
     if (typeof(callback) == 'function') {
       var data = '';
 

@@ -17,15 +17,15 @@ var Shout = Class.create(Engine, {
     $super(bot);
     bot.on("/shout\\s(.*)", function(message, matches, callback) {
       var self = this;
+      system.puts(this.bot.name);
       this.bot.campfire.user(message.user_id, function(data) {
         var user = data.user;
         var all_rooms = self.bot.campfire_rooms;
-        for (r in all_rooms) {
-          var room = all_rooms[r];
+        all_rooms.each(function(room) {
           room.speak(user.name + ":", function(data) {
             this.speak(matches[0], function(data) {});
           });
-        }
+        }, this);
       })
     });
   },

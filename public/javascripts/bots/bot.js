@@ -24,11 +24,15 @@ var Bot = Class.create({
   },
   
   process_message: function(room, message) {
-    for(engine in this.engines) {
-      if (this.engines[engine].process(room, message) === sig.STOP) {
+    system.puts("-----> " + this.name);
+    this.engines.each(function(engine) {
+      system.puts(engine.bot.name);
+    }, this);
+    this.engines.each(function(engine) {
+      if (engine.process(room, message) === sig.STOP) {
         return;
       }
-    }
+    }, this);
   },
 
   listen: function(room_id) {
@@ -37,6 +41,7 @@ var Bot = Class.create({
       room.join(function() {
         self.campfire_rooms.push(room);
         room.listen(function(message) {
+          system.puts("-----> " + self.name);
           if (message.body) system.puts(message.body);
           if (message.user_id != self.id) {
             self.process_message(room, message);
@@ -64,7 +69,11 @@ var Bot = Class.create({
   init_engines: function() {
     this.engines.each(function(engine) {
       engine.set_bot(this);
-    }, this)
+    }, this);
+    system.puts("this bot is: " + this.name);
+    this.engines.each(function(engine) {
+      system.puts(engine.bot.name);
+    }, this);
   }
 });
 
